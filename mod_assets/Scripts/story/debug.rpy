@@ -319,5 +319,5 @@ label a2_1beta:
 
 # Script de Prueba para poner claves de a la etapa de Yuri:
 
-mc "¡Yuri, por favor detente! ¡No lo hagas!"
-$ autolesiones()
+# mc "¡Yuri, por favor detente! ¡No lo hagas!"
+# $ autolesiones()
