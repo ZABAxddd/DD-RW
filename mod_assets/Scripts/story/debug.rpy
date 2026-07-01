@@ -116,72 +116,74 @@ label a2_1beta:
 #     return
 
 #Script de Prueba de CMD con Monika:
-    "De repente, la pantalla parpadea y el juego pierde el control..."
+#     "De repente, la pantalla parpadea y el juego pierde el control..."
 
-    # 1. ESCRIBE TUS DIÁLOGOS AQUÍ (Esto es lo que saldrá en la ventana negra)
-    $ dialogos_inicio = [
-        "Monika: Hola de nuevo...",
-        "Monika: Logré aislar este proceso fuera del motor de Ren'Py.",
-        "Monika: Acabo de crear un archivo en tu carpeta 'game'.",
-        "Monika: Se llama salvation.bat",
-        "Monika: Por favor, búscalo, arrástralo a esta ventana y presiona Enter antes de que nos descubra."
-    ]
+#     # 1. ESCRIBE TUS DIÁLOGOS AQUÍ (Esto es lo que saldrá en la ventana negra)
+#     $ dialogos_inicio = [
+#         "Monika: Hola de nuevo...",
+#         "Monika: Logré aislar este proceso fuera del motor de Ren'Py.",
+#         "Monika: Acabo de crear un archivo en tu carpeta 'game'.",
+#         "Monika: Se llama salvation.bat",
+#         "Monika: Por favor, búscalo, arrástralo a esta ventana y presiona Enter antes de que nos descubra."
+#     ]
     
-    $ dialogos_exito = [
-        "Monika: ¡Perfecto! El código de anulación fue aceptado.",
-        "Monika: Regresando al juego..."
-    ]
+#     $ dialogos_exito = [
+#         "Monika: ¡Perfecto! El código de anulación fue aceptado.",
+#         "Monika: Regresando al juego..."
+#     ]
     
-    $ dialogos_fallo = [
-        "Monika: Oh no...",
-        "Monika: Te quedaste sin tiempo.",
-        "Monika: Supongo que este es el fin. Adiós."
-    ]
+#     $ dialogos_fallo = [
+#         "Monika: Oh no...",
+#         "Monika: Te quedaste sin tiempo.",
+#         "Monika: Supongo que este es el fin. Adiós."
+#     ]
     
-    # 2. EL CONTENIDO DE TU ARCHIVO .BAT (El script que se ejecuta al arrastrar)
-    $ script_bat = """@echo off
-color 0A
-echo ===========================================
-echo [SISTEMA] INICIANDO PROTOCOLO DE SALVACION
-echo ===========================================
-timeout /t 2 >nul
-echo Parcheando archivos base...
-timeout /t 1 >nul
-echo Inyeccion completada con exito.
-"""
+#     # 2. EL CONTENIDO DE TU ARCHIVO .BAT (El script que se ejecuta al arrastrar)
+#     $ script_bat = """@echo off
+# color 0A
+# echo ===========================================
+# echo [SISTEMA] INICIANDO PROTOCOLO DE SALVACION
+# echo ===========================================
+# timeout /t 2 >nul
+# echo Parcheando archivos base...
+# timeout /t 1 >nul
+# echo Inyeccion completada con exito.
+# """
 
-    # 3. INICIAMOS LA CONSOLA EXTERNA
-    $ preparar_evento_cmd(dialogos_inicio, dialogos_exito, dialogos_fallo, script_bat)
+#     # 3. INICIAMOS LA CONSOLA EXTERNA
+#     $ preparar_evento_cmd(dialogos_inicio, dialogos_exito, dialogos_fallo, script_bat)
     
-    # 4. MOSTRAMOS LA PANTALLA EN REN'PY (Ej. 60 segundos)
-    $ tiempo_cmd = 60
-    show screen pantalla_video_cmd
+#     # 4. MOSTRAMOS LA PANTALLA EN REN'PY (Ej. 60 segundos)
+#     $ tiempo_cmd = 60
+#     show screen pantalla_video_cmd
     
-    # 5. EL BUCLE DE ESPERA DEL JUEGO
-    # Ren'Py se queda aquí esperando a que el jugador gane o el reloj llegue a 0
-    while tiempo_cmd > 0 and comprobar_estado_cmd() == "ESPERANDO":
-        $ renpy.pause(0.5, hard=True)
+#     # 5. EL BUCLE DE ESPERA DEL JUEGO
+#     # Ren'Py se queda aquí esperando a que el jugador gane o el reloj llegue a 0
+#     while tiempo_cmd > 0 and comprobar_estado_cmd() == "ESPERANDO":
+#         $ renpy.pause(0.5, hard=True)
 
         
         
-    # --- FIN DEL BUCLE: EVALUAMOS RESULTADOS ---
+#     # --- FIN DEL BUCLE: EVALUAMOS RESULTADOS ---
 
-    if comprobar_estado_cmd() == "GANO":
-        hide screen pantalla_video_cmd
-        $ limpiar_archivos_cmd()
+#     if comprobar_estado_cmd() == "GANO":
+#         hide screen pantalla_video_cmd
+#         $ limpiar_archivos_cmd()
         
-        "La consola se cerró de golpe y el ambiente se sintió más ligero."
-        jump ruta_buena_historia
+#         "La consola se cerró de golpe y el ambiente se sintió más ligero."
+#         jump ruta_buena_historia
         
-    else:
-        # El tiempo se acabó
-        hide screen pantalla_video_cmd
-        $ enviar_timeout_cmd() 
+#     else:
+#         # El tiempo se acabó
+#         hide screen pantalla_video_cmd
+#         $ enviar_timeout_cmd() 
         
-        # Le damos 4 segundos a Ren'Py de pausa obligatoria 
-        # para que el jugador tenga tiempo de leer los diálogos tristes en la ventana negra antes de que se cierre
-        $ renpy.pause(4.0) 
-        $ limpiar_archivos_cmd()
+#         # Le damos 4 segundos a Ren'Py de pausa obligatoria 
+#         # para que el jugador tenga tiempo de leer los diálogos tristes en la ventana negra antes de que se cierre
+#         $ renpy.pause(4.0) 
+#         $ limpiar_archivos_cmd()
         
-        "Todo se volvió silencioso..."
-        jump ruta_mala_historia
+#         "Todo se volvió silencioso..."
+#         jump ruta_mala_historia
+
+# Script de Prueba para poner claves de a la etapa de Yuri:
