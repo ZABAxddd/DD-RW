@@ -319,5 +319,11 @@ label a2_1beta:
 
 # Script de Prueba para poner claves de a la etapa de Yuri:
 
-# mc "¡Yuri, por favor detente! ¡No lo hagas!"
-# $ autolesiones()
+    mc "¡Yuri, por favor detente! ¡No lo hagas!"
+    $ autolesiones()
+    return
+
+label a2_2beta:
+    "Escribí rápidamente la palabra de aquel manual extraño..."
+    "Yuri se detiene abruptamente, soltando el cuchillo."
+    y "Oh [player] muchas gracias por salvarme"

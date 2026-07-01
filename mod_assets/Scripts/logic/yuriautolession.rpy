@@ -112,9 +112,8 @@ label bucle_ingreso_yuri:
             jump bucle_ingreso_yuri
 
 label ruta_buena_yuri:
-    "Escribí rápidamente la palabra de aquel manual extraño..."
-    "Yuri se detiene abruptamente, soltando el cuchillo."
-    "¡Lo lograste! (Ruta Buena)"
+
+    jump a2_2beta
     return
 
 label ruta_mala_yuri:
