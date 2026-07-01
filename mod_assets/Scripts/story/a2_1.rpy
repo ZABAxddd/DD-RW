@@ -1,4 +1,4 @@
-label a2_1:
+label debug:
 
     """
     Mostrar cinemática 
