@@ -196,7 +196,7 @@ define audio.fall = "sfx/fall.ogg"
 
 #### Mod Sounds ####
 
-define audio.tictac = "mod_assets/sounds/tictac.ogg"
+define audio.tictac = "mod_assets/sfx/countdown.ogg"
 
 
 ####

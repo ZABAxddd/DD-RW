@@ -25,9 +25,9 @@ label a2_1beta:
 #     $ crear_sh_llave("SAYORI_SYSTEM_DUMP\n\nSi estás leyendo esto mediante el bloc de notas,\nsignifica que aún puedes salvarme.\nArrástramelo a la carpeta /characters del juego\nConfio en ti [user].")
 
 #     # 2. Encendemos el reloj en 3:33 (213 segundos)
-#     $ cuenta_regresiva(213)
+    # 
+    # $ cuenta_regresiva(213)
 
-#     play music tictac loop
 
 #     # 3. EL TRICO MÁGICO (El bucle de espera)
 #     # El juego se quedará congelado en esta línea infinitamente mientras el contador sea mayor a 0 
@@ -81,8 +81,6 @@ label a2_1beta:
 
 #     # 2. Encendemos el reloj en 3:33 (213 segundos)
 #     $ cuenta_regresiva(213)
-
-#     play music tictac loop
 
 #     # 3. EL TRICO MÁGICO (El bucle de espera)
 #     # El juego se quedará congelado en esta línea infinitamente mientras el contador sea mayor a 0 
@@ -154,8 +152,9 @@ label a2_1beta:
 #     $ preparar_evento_cmd(dialogos_inicio, dialogos_exito, dialogos_fallo, script_bat)
     
 #     # 4. MOSTRAMOS LA PANTALLA EN REN'PY (Ej. 60 segundos)
-#     $ tiempo_cmd = 60
-#     show screen pantalla_video_cmd
+    # $ tiempo_cmd = 60
+    # 
+    # show screen pantalla_video_cmd
     
 #     # 5. EL BUCLE DE ESPERA DEL JUEGO
 #     # Ren'Py se queda aquí esperando a que el jugador gane o el reloj llegue a 0
@@ -320,8 +319,23 @@ label a2_1beta:
 # Script de Prueba para poner claves de a la etapa de Yuri:
 
 #     mc "¡Yuri, por favor detente! ¡No lo hagas!"
+#     # $ tiempo_yuri = 213
+#     $ tiempo_yuri = 50
+    
 #     $ autolesiones()
 #     return
+
+# label ruta_buena_yuri:
+
+#     jump a2_2beta
+#     return
+
+# label ruta_mala_yuri:
+#     "Me quedé paralizado, sin saber qué hacer..."
+#     "El tiempo se agotó."
+#     "(Ruta Mala: Yuri no sobrevivió)"
+#     return
+
 
 # label a2_2beta:
 #     "Escribí rápidamente la palabra de aquel manual extraño..."
@@ -330,9 +344,9 @@ label a2_1beta:
 
 # #### Script del evento con Natsuki y su desvanecimiento:
 
-
-#     $ tiempo_natsuki = 213
-#     $ despedazar_natsuki()
+    # 
+    # $ tiempo_natsuki = 120
+    # $ despedazar_natsuki()
     
 #     call screen pantalla_rescate_natsuki
     

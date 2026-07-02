@@ -4,10 +4,11 @@ default tiempo_cmd = 0
 screen pantalla_video_cmd():
     # Tu video en bucle (asegúrate de tener un video en formato .webm o .ogv en tu carpeta /game)
     # add "tu_video_estatico.webm" 
-
+    use gestor_audio_cronometro(tiempo_cmd)
     # El temporizador interno de Ren'Py
     timer 1.0 action If(tiempo_cmd > 0, SetVariable("tiempo_cmd", tiempo_cmd - 1)) repeat True
     
+
     # Formateo a reloj (ej. 01:15)
     $ min = int(tiempo_cmd // 60)
     $ seg = int(tiempo_cmd % 60)

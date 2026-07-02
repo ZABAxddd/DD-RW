@@ -1,5 +1,5 @@
 # Defino las variables base necesarias para el flujo del evento.
-default tiempo_yuri = 213
+default tiempo_yuri = 0
 default entrada_jugador = ""
 default estado_minijuego = "normal" 
 
@@ -33,7 +33,10 @@ init python:
         renpy.call("evento_autolesiones_label")
 
 screen pantalla_clave_yuri():
+
     # Calculo el formato temporal para representar el tiempo en estructura legible.
+    use gestor_audio_cronometro(tiempo_yuri)
+
     $ minutos = tiempo_yuri // 60
     $ segundos = tiempo_yuri % 60
     $ tiempo_formateado = "{:02d}:{:02d}".format(minutos, segundos)
@@ -79,7 +82,7 @@ screen pantalla_clave_yuri():
             text "[entrada_jugador]" size 40 color color_general xalign 0.5
 
 label evento_autolesiones_label:
-    $ tiempo_yuri = 213 
+
     $ entrada_jugador = "" 
     $ estado_minijuego = "normal" 
 
@@ -88,6 +91,7 @@ label bucle_ingreso_yuri:
     
     # Evalúo la condición de fallo crítico.
     if _return == "tiempo_agotado":
+        stop music
         hide screen pantalla_clave_yuri
         jump ruta_mala_yuri
         
@@ -111,13 +115,3 @@ label bucle_ingreso_yuri:
         else:
             jump bucle_ingreso_yuri
 
-label ruta_buena_yuri:
-
-    jump a2_2beta
-    return
-
-label ruta_mala_yuri:
-    "Me quedé paralizado, sin saber qué hacer..."
-    "El tiempo se agotó."
-    "(Ruta Mala: Yuri no sobrevivió)"
-    return
