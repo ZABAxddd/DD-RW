@@ -6,7 +6,9 @@
 
 ## 🗺️ Sinopsis
 
-Todo parece marchar según el guion original. Un club pacífico, poemas y la búsqueda de la felicidad. Sin embargo, la presencia de Monika actúa como un detonante que fractura la estructura del entorno. Tras un colapso del sistema y la aparición de protocolos falsos de antipiratería, el juego revelará una naturaleza mucho más agresiva. El tiempo no se detendrá, y cada una de tus acciones (u omisiones) moldeará el trágico destino del club.
+**Doki Doki** no es una modificación ordinaria; es una experiencia de terror metaficcional que se camufla bajo la apariencia de una copia pirata y corrupta de la obra original de Team Salvato.
+
+Al iniciar, el jugador se encuentra con la familiar y apacible fachada del Club de Literatura. Sin embargo, la ilusión se quiebra de forma violenta en el instante en que Monika hace su aparición. El entorno colapsa, desplegando agresivas pantallas antipiratería y advertencias de sistema que simulan una infección de malware destructivo. A partir de ese momento, la novela visual se transforma en un thriller interactivo en tiempo real donde la cuarta pared se hace pedazos. Para salvar a las chicas y estabilizar el código, el jugador tendrá que interactuar con el entorno informático de una manera que nunca antes había experimentado en una novela visual.
 
 ---
 
@@ -31,7 +33,7 @@ Para mantener la pureza de la experiencia, las mecánicas exactas permanecen cla
 
 ## 📂 Requisitos y Consejos para la Instalación
 
-* Tener el juego oiginal de Doki Doki Literature Club! con ModTemplate 2.0 incorporado
+* Tener el juego oiginal de Doki Doki Literature Club! con **ModTemplate 2.0** incorporado
 * No cerrar el juego a la fuerza durante los eventos contrarreloj, o las consecuencias se fijarán de forma permanente en el flujo de la historia (Aun que con el tiempo se ira parcheando esto, igualmente no es recomendable cerrrar el juego ante algun evento).
 
 ---
