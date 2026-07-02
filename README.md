@@ -1,3 +1,5 @@
+[![Créditos](https://img.shields.io/badge/Contribuidores-Créditos_del_Proyecto-purple?style=for-the-badge&logo=github)](CREDITS.md)
+
 # Doki Doki (An Unofficial DDLC Fan Game Experience)
 
 > **ADVERTENCIA:** Este proyecto simula el comportamiento de una copia pirata corrupta ("Fakeware"). Incluye elementos de terror psicológico, manipulación visual, e interacciones inusuales con el entorno de ejecución. No daña tu equipo, pero se recomienda jugarlo con la mente abierta... y explorando más allá de la ventana del juego.
