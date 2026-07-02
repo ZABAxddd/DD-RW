@@ -17,22 +17,22 @@ Para mantener la pureza de la experiencia, las mecánicas exactas permanecen cla
 ### 📁 1. Manifestaciones Fuera de la Ventana
 * **La Cuarta Pared Rota:** El entorno interactúa directamente con el espacio del usuario de manera agnóstica (compatible con entornos Windows y Linux).
 * **Búsqueda a Ciegas:** Ciertos elementos cruciales de los personajes pueden fragmentarse y dispersarse de forma completamente impredecible. El jugador deberá revisar sus directorios comunes antes de que la corrupción sea permanente.
-* **Protocolo de Limpieza:** El código incluye un sistema de purga automatizado. Ganes o pierdas, los residuos temporales generados en el almacenamiento del usuario se desvanecerán por completo para evitar desorden innecesario en el sistema.
+
 
 ### ⏳ 2. Entradas Bajo Presión y Penalizaciones
 * **El Pánico Cuesta Caro:** Hay momentos donde el juego exigirá respuestas precisas bajo un reloj implacable.
 * **Efecto Mariposa Temporal:** No hay margen para el ensayo y error. Equivocarse en las interacciones acelerará drásticamente el final, restando tiempo valioso de forma directa en el contador de crisis.
 
-### 🎵 3. El Demonio Acústico (Diseño de Sonido Dinámico)
+### 🎵 3. El pandemonium acústico (Diseño de Sonido Dinámico)
 * **Metamorfosis Musical:** El paisaje sonoro estándar mutará orgánicamente según la gravedad de la situación. 
 * **Sincronización del Clímax:** El sistema de audio es inteligente. Si el tiempo restante sufre una alteración abrupta debido a tus errores, la música no se reiniciará ni sonará dispareja; calculará matemáticamente el desespero actual y saltará al segundo exacto de su versión más distorsionada, garantizando que el clímax auditivo coincida con el segundo cero.
 
 ---
 
-## 📂 Requisitos para la Instalación
+## 📂 Requisitos y Consejos para la Instalación
 
-* Mantener la carpeta raíz del juego (`/characters/` y directorios adyacentes) accesible durante toda la sesión.
-* No cerrar el juego a la fuerza durante los eventos contrarreloj, o las consecuencias se fijarán de forma permanente en el flujo de la historia.
+* Tener el juego oiginal de Doki Doki Literature Club! con ModTemplate 2.0 incorporado
+* No cerrar el juego a la fuerza durante los eventos contrarreloj, o las consecuencias se fijarán de forma permanente en el flujo de la historia (Aun que con el tiempo se ira parcheando esto, igualmente no es recomendable cerrrar el juego ante algun evento).
 
 ---
 Desarrollado con pasión por el terror computacional. Explora bajo tu propio riesgo.
