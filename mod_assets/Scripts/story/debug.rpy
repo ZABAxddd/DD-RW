@@ -319,11 +319,42 @@ label a2_1beta:
 
 # Script de Prueba para poner claves de a la etapa de Yuri:
 
-    mc "¡Yuri, por favor detente! ¡No lo hagas!"
-    $ autolesiones()
-    return
+#     mc "¡Yuri, por favor detente! ¡No lo hagas!"
+#     $ autolesiones()
+#     return
 
-label a2_2beta:
-    "Escribí rápidamente la palabra de aquel manual extraño..."
-    "Yuri se detiene abruptamente, soltando el cuchillo."
-    y "Oh [player] muchas gracias por salvarme"
+# label a2_2beta:
+#     "Escribí rápidamente la palabra de aquel manual extraño..."
+#     "Yuri se detiene abruptamente, soltando el cuchillo."
+#     y "Oh [player] muchas gracias por salvarme"
+
+# #### Script del evento con Natsuki y su desvanecimiento:
+
+
+#     $ tiempo_natsuki = 213
+#     $ despedazar_natsuki()
+    
+#     call screen pantalla_rescate_natsuki
+    
+#     if _return == "exito":
+#         $ limpiar_archivos_natsuki()
+#         jump ruta_buena_natsuki
+#     elif _return == "tiempo_agotado":
+#         $ limpiar_archivos_natsuki()
+#         jump ruta_mala_natsuki
+
+# label ruta_buena_natsuki:
+#     "El código del juego se estabiliza..."
+#     "Natsuki abre los ojos de golpe, respirando agitadamente."
+#     "¡Conseguiste todas las partes a tiempo!"
+#     return
+
+# label ruta_mala_natsuki:
+#     # Reproduzco el impacto visual de terror al fallar la ventana de tiempo.
+#     # play sound "scream.ogg"
+#     # show natsuki_screamer at center
+#     "El tiempo se detuvo."
+#     "Los archivos de Natsuki fueron eliminados del sistema permanentemente."
+#     return
+
+

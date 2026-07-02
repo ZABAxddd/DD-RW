@@ -57,7 +57,7 @@ screen pantalla_clave_yuri():
             at pulsar_exito
 
         align (0.5, 0.1)
-        text "Tiempo restante: [tiempo_formateado]" size 50 color color_cronometro outlines [(2, "#000", 0, 0)] xalign 0.5
+        text "[tiempo_formateado]" size 45 color "#ff0000" bold True
 
     vbox:
         if estado_minijuego == "error":
