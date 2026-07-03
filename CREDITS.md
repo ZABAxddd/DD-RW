@@ -12,7 +12,8 @@ Agradecemos profundamente a todos los involucrados por hacer posible esta experi
 * ZABA
 
 ### **Arte y Diseño Visual:** 
-* Kirov
+* ItsmeKirov 
+* MoniKate
 * ZABA
 
 ## 💻 Desarrollo Técnico (Coding)
@@ -24,8 +25,8 @@ Agradecemos profundamente a todos los involucrados por hacer posible esta experi
 ## 🔍 Control de Calidad (QA / Testing)
 
 ### *Cazadores de Bugs:** 
-* Kirov
-* Danger
+* ItsmeKirov 
+* Danger3m
 * ZABA
 
 ---
