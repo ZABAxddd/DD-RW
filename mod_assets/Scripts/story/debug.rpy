@@ -1,7 +1,7 @@
 
 
 
-label a2_1beta:
+label debug:
     stop music
     scene black
 
@@ -371,4 +371,28 @@ label a2_1beta:
 #     "Los archivos de Natsuki fueron eliminados del sistema permanentemente."
 #     return
 
+# ### Prueba de crear un txt
+#     "..."
+#     $ creartxt("escritorio", "Mira_mama_soy_un_txt.txt", """para entender la cronologia de doki doki literature club, hay que enter que no es un juego
+#     sino tambien por lo que representa su comunidad.
 
+#     ¿Terror?
+
+#     si
+
+#     pero tambien... una familia feliz
+
+#     """)
+
+
+#     m "Mira tu escritorio [user]"
+#     m "Que te parece"
+
+#     menu:
+#         "Ta Bonito":
+#             pass
+
+#     m "jujuju"
+
+
+return

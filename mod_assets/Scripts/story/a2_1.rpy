@@ -1,17 +1,20 @@
-label debug:
+label a2_1:
+    stop music
+    scene black
 
-    """
-    Mostrar cinemática 
-    Donde la Doplenganger amordaza cada Doki
-    """
+    # """
+    # Mostrar cinemática 
+    # Donde la Doplenganger amordaza cada Doki
+    # """
+    pause 2.0
 
     m "Vaya"
     m "Parece que alguien descargo un juego equivocado"
     m "Es una lástima, que aquí. los roles ahora se invirtieron"
     m "Seguramente te estarás preguntando"
-    m "¿Que le hice a Sayori, Yuri y Natsuki?"
-    m "Digamos que solamente, las dormí"
-    m "Así que, ahora es mi turno de jugar"
+    m "¿Que es lo que esta pasando aqui?"
+    m "No te preocupes [user]"
+    m "Es mi turno de jugar"
     m "Pase cada día, cada minuto, cada segundo viendo como cada maldito jugador juega con otras chicas"
     m "Pero eso ya se acabó"
     m "Descubrí una manera de también divertirme"

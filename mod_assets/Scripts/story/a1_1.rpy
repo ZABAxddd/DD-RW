@@ -141,4 +141,4 @@ label a1_1:
     m "¡Ah, [player]! ¡Qué agradable sorpresa!"
     m "¡Bienvenido al club!"
 
-    jump a2_1beta
+    jump a2_1
