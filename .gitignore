@@ -191,7 +191,9 @@ saves/
 *.o
 
 *.rpyc
+*.rpyb
 *.rpymc
+shaders.txt
 
 
 # The log file and other misc things #
