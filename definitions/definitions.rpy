@@ -197,6 +197,7 @@ define audio.fall = "sfx/fall.ogg"
 #### Mod Sounds ####
 
 define audio.tictac = "mod_assets/sfx/countdown.ogg"
+define audio.sayori_scream = "mod_assets/sfx/sayori_scream.ogg"
 
 
 ####
