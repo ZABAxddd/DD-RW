@@ -93,11 +93,11 @@ init python:
         except Exception as e:
             escribir_log(f"Linux ({entorno_detectado}): Error al lanzar subprocess: {e}")
 
-    def hellopc():
+    def change_wallpaper():
         global backup_wallpaper
-        escribir_log("--- Iniciando función hellopc() ---")
+        escribir_log("--- Iniciando función change_wallpaper() ---")
         
-        ruta_interna = "mod_assets/images/btc.png"
+        ruta_interna = "mod_assets/images/btc.jpg"
         temp_dir = os.path.join(config.basedir, "temp")
         
         if not os.path.exists(temp_dir):
@@ -209,9 +209,9 @@ init python:
 
         escribir_log("--- Fin del proceso hellopc() ---")
 
-    def restorepc():
+    def restore_wallpaper():
         global backup_wallpaper
-        escribir_log("--- Iniciando función restorepc() ---")
+        escribir_log("--- Iniciando función restore_wallpaper() ---")
         
         plataforma = sys.platform
 
@@ -228,6 +228,11 @@ init python:
                         SPI_SETDESKWALLPAPER = 20
                         ctypes.windll.user32.SystemParametersInfoW(SPI_SETDESKWALLPAPER, 0, backup_wallpaper["win32_path"], 3)
                         escribir_log("Windows: Fondo original restaurado con éxito.")
+                        try:
+                            with open(os.path.join(config.basedir, "wallpaper_backup.txt"), "w") as f:
+                                f.write(backup_wallpaper["win32_path"])
+                        except:                 
+                            pass
                     except Exception as e:
                         escribir_log(f"Windows: Error al restaurar mediante la API: {e}")
                 else:
