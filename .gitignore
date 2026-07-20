@@ -190,6 +190,7 @@ saves/
 *.exe
 *.o
 
+*.rpa
 *.rpyc
 *.rpyb
 *.rpymc
@@ -202,7 +203,8 @@ log.txt
 errors.txt
 traceback.txt
 files.txt
-
+cache/
+saves/
 
 # End of https://www.toptal.com/developers/gitignore/api/audio,batch,images,python,renpy,video
 

@@ -198,6 +198,9 @@ define audio.fall = "sfx/fall.ogg"
 
 define audio.tictac = "mod_assets/sfx/countdown.ogg"
 define audio.sayori_scream = "mod_assets/sfx/sayori_scream.ogg"
+define audio.sanity_loop2 = "mod_assets/sfx/sanity_loop2.ogg"
+define audio.splat = "mod_assets/sfx/splat.ogg"
+
 
 
 ####
@@ -243,6 +246,19 @@ image bg bedroom = "bg/bedroom.png" # MC's Room BG
 image bg sayori_bedroom = "bg/sayori_bedroom.png" # Sayori's Room BG
 image bg house = "bg/house.png" # Sayori's House BG
 image bg kitchen = "bg/kitchen.png" # MC's Kitchen BG
+
+#### BG MOD ####
+
+image bg park = "mod_assets/images/park.jpg"
+image bg corridor_nightmare = "mod_assets/images/corridor_nightmare.png"
+image bg club_nightmare = "mod_assets/images/club_nightmare.png"
+
+
+#### Sprites MOD #########
+
+image sayori deformed = "mod_assets/sprites/sayorideformed.png"
+
+################
 
 image bg notebook = "bg/notebook.png" # Poem Game Notebook Scene
 image bg notebook-glitch = "bg/notebook-glitch.png" # Glitched Poem Game BG
@@ -395,6 +411,7 @@ image sayori 2y = im.Composite((960, 960), (0, 0), "sayori/1l.png", (0, 0), "say
 
 image sayori 3 = im.Composite((960, 960), (0, 0), "sayori/2l.png", (0, 0), "sayori/1r.png", (0, 0), "sayori/a.png")
 image sayori 3a = im.Composite((960, 960), (0, 0), "sayori/2l.png", (0, 0), "sayori/1r.png", (0, 0), "sayori/a.png")
+
 image sayori 3b = im.Composite((960, 960), (0, 0), "sayori/2l.png", (0, 0), "sayori/1r.png", (0, 0), "sayori/b.png")
 image sayori 3c = im.Composite((960, 960), (0, 0), "sayori/2l.png", (0, 0), "sayori/1r.png", (0, 0), "sayori/c.png")
 image sayori 3d = im.Composite((960, 960), (0, 0), "sayori/2l.png", (0, 0), "sayori/1r.png", (0, 0), "sayori/d.png")
