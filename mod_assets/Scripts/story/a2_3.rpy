@@ -7,14 +7,18 @@ label a2_3:
     play sound sayori_cry_ambient fadein 1.5 loop
     play sound sayori_laugh_ambient fadein 2.0 loop
     scene bg corridor_nightmare with dissolve_scene_full
+    show layer master:
+        shader "custom.crt_retro"
+    with dissolve
     $ mostrar_estatica(0.0, 0.0)
+    $ mostrar_estatica(0.1, 3.0)
     "Estoy en un pasillo vacío del instituto."
     "Todo se ve oscuro y desgarrado."
-    show sayori 1h at t11
+    show sayori 1h zorder 2 at t11, shadow
     "Sayori aparece al final del pasillo, con los brazos caídos y la mirada perdida."
     $ style.say_dialogue = style.edited
     s "¿Por qué... por qué no me ayudaste?"
-    $ mostrar_estatica(0.1, 1.0)
+    $ mostrar_estatica(0.2, 1.0)
     $ style.say_dialogue = style.normal
     mc "¡Sayori! ¿De qué hablas? ¡Estoy aquí!"
     $ mostrar_estatica(0.3, 5.0)
