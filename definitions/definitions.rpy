@@ -198,6 +198,8 @@ define audio.fall = "sfx/fall.ogg"
 
 define audio.tictac = "mod_assets/sfx/countdown.ogg"
 define audio.sayori_scream = "mod_assets/sfx/sayori_scream.ogg"
+define audio.sayori_cry_ambient = "mod_assets/sfx/sayori_cry_1.ogg"
+define audio.sayori_laugh_ambient = "mod_assets/sfx/sayori_laugh_1.ogg"
 define audio.sanity_loop2 = "mod_assets/sfx/sanity_loop2.ogg"
 define audio.splat = "mod_assets/sfx/splat.ogg"
 

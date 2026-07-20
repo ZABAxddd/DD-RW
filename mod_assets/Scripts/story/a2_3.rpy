@@ -3,7 +3,9 @@ label a2_3:
     scene black with Dissolve(3.0)
     stop music
     "..." with Pause(2.0)
-    play music sanity_loop2 fadein 1.5 loop
+    play music sanity_loop2 fadein 2.5 loop
+    play sound sayori_cry_ambient fadein 1.5 loop
+    play sound sayori_laugh_ambient fadein 2.0 loop
     scene bg corridor_nightmare with dissolve_scene_full
     $ mostrar_estatica(0.0, 0.0)
     "Estoy en un pasillo vacío del instituto."
@@ -18,11 +20,13 @@ label a2_3:
     $ mostrar_estatica(0.3, 5.0)
     $ style.say_dialogue = style.edited
     s "Es demasiado tarde. Siempre es demasiado tarde para mí."
+    $ style.say_dialogue = style.normal
     "Habla con un tono de agobio, todo lo que dice me desgarra emocionalmente."
     $ mostrar_estatica(0.8, 5.0)
     $ style.say_dialogue = style.normal
     stop music fadeout 2.0
     "Me acerco a Sayori un poco mas{w=1}.{w=1}.{w=1}.{w=1}{nw}"
+    stop sound 
     play audio sayori_scream noloop
     show sayori deformed zorder 101 at zoom_cara_sayori(3.0,0.0)
     $ create_icons_desktop()
