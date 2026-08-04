@@ -157,7 +157,8 @@ label a2_2:
     mc "Buenas noches, Sayori."
     hide sayori
     "La vi entrar y cerrar la puerta. Una sensación extraña me apretó el pecho, pero la atribuí al cansancio."
-    "Caminé a casa, me duché y me acosté. El sueño me venció rápidamente."
+    "En fin voy a volver a casa."
+    "Seguro mañana sera un gran dia."
 
     jump a2_3
 return
