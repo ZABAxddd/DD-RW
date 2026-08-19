@@ -85,7 +85,7 @@ label a2_2:
     mc "No te preocupes, Natsuki. Ya nos íbamos."
     n 4a "Pues vayan, que aquí se lee en paz."
     "Vaya niña, gruñe tanto como lo hace un perrito pequeño"
-    show natuski at thide
+    show natsuki at thide
     hide natsuki
     show sayori 1h at t11
     
@@ -101,7 +101,7 @@ label a2_2:
     play music t8
 
     show sayori 1a at t11
-    s "¿Oye [player]Te acuerdas cuando jugábamos en el parque de niños? Siempre terminabas raspándote las rodillas."
+    s "¿Oye [player] Te acuerdas cuando jugábamos en el parque de niños? Siempre terminabas raspándote las rodillas."
     mc "Eso era porque tú me empujabas en los columpios demasiado fuerte."
     s 4q "Pero te reías. Eras un niño muy raro."
     mc "Y tú siempre venías con tiritas de ranitas. Me sentía un héroe herido."
