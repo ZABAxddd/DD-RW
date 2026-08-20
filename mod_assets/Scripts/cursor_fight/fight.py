@@ -3,7 +3,7 @@ import math
 import random
 import time
 import os
-from PIL import Image, ImageTk
+from PIL import Image, ImageTk, ImageDraw
 
 class MinijuegoEscritorio:
     def __init__(self):
@@ -25,252 +25,439 @@ class MinijuegoEscritorio:
         
         self.sprite_size = 64
         
-        # --- CARGA DE SPRITES PEQUEÑOS ---
+        # --- CARGA DE SPRITES Y FANTASMAS ---
         self.sprites = {}
+        self.telegrafos = {}
         rutas_imagenes = {
-            'basico': "hello.png",
-            'fuego': "fire.png",
-            'hielo': "ice.png",
-            'veneno': "poison.png"
+            'basico': "hello.png", 'fuego': "fire.png", 
+            'hielo': "ice.png", 'veneno': "poison.png"
         }
-        colores_respaldo = ['red', 'orange', 'cyan', 'purple']
+        colores_respaldo = [(255, 100, 100, 255), (255, 200, 100, 255), (100, 255, 255, 255), (200, 100, 255, 255)]
+        
         for i, (nombre, archivo) in enumerate(rutas_imagenes.items()):
             ruta = os.path.join("game", "mod_assets", "images", archivo)
             try:
-                img_orig = Image.open(ruta)
-                img_res = img_orig.resize((self.sprite_size, self.sprite_size), Image.Resampling.NEAREST)
+                img_orig = Image.open(ruta).convert('RGBA')
+                img_res = img_orig.resize((self.sprite_size, self.sprite_size), Image.Resampling.LANCZOS)
                 self.sprites[nombre] = ImageTk.PhotoImage(img_res)
+                
+                img_tel = img_res.copy()
+                r, g, b, a = img_tel.split()
+                a = a.point(lambda p: int(p * 0.4)) 
+                img_tel.putalpha(a)
+                draw = ImageDraw.Draw(img_tel)
+                draw.ellipse([2, 2, self.sprite_size-2, self.sprite_size-2], outline=(255, 50, 50, 180), width=3)
+                self.telegrafos[nombre] = ImageTk.PhotoImage(img_tel)
+                
             except Exception:
-                img_vacia = tk.PhotoImage(width=self.sprite_size, height=self.sprite_size)
-                self.sprites[nombre] = img_vacia 
-                self.sprites[f"{nombre}_color"] = colores_respaldo[i % len(colores_respaldo)]
+                img_falsa = Image.new('RGBA', (self.sprite_size, self.sprite_size), (0,0,0,0))
+                draw = ImageDraw.Draw(img_falsa)
+                draw.ellipse([4, 4, self.sprite_size-4, self.sprite_size-4], fill=colores_respaldo[i % 4], outline=(255,255,255,255), width=3)
+                self.sprites[nombre] = ImageTk.PhotoImage(img_falsa)
+                
+                img_tel = img_falsa.copy()
+                r, g, b, a = img_tel.split()
+                a = a.point(lambda p: int(p * 0.4))
+                img_tel.putalpha(a)
+                draw_tel = ImageDraw.Draw(img_tel)
+                draw_tel.ellipse([2, 2, self.sprite_size-2, self.sprite_size-2], outline=(255, 50, 50, 180), width=3)
+                self.telegrafos[nombre] = ImageTk.PhotoImage(img_tel)
 
-        # --- CARGA DEL SPRITE DE LA BOCA ---
+        # --- CARGA DE BOCA ---
         self.bocas = []
-        self.siguiente_boca_spawn = time.time() + random.uniform(5.0, 8.0)
-        
+        self.alertas = [] 
         ruta_boca = os.path.join("game", "mod_assets", "images", "mouth.png")
         try:
-            # Precargamos todas las rotaciones para no gastar recursos en tiempo real
             img_boca_orig = Image.open(ruta_boca).resize((256, 128), Image.Resampling.NEAREST)
             self.boca_imgs = {
-                'down': ImageTk.PhotoImage(img_boca_orig), # Mirando hacia arriba
-                'up': ImageTk.PhotoImage(img_boca_orig.rotate(180, expand=True)), # Mirando hacia abajo
-                'left': ImageTk.PhotoImage(img_boca_orig.rotate(-90, expand=True)), # Mirando a la izquierda (256x512)
-                'right': ImageTk.PhotoImage(img_boca_orig.rotate(90, expand=True)) # Mirando a la derecha (256x512)
+                'down': ImageTk.PhotoImage(img_boca_orig), 'up': ImageTk.PhotoImage(img_boca_orig.rotate(180, expand=True)), 
+                'left': ImageTk.PhotoImage(img_boca_orig.rotate(-90, expand=True)), 'right': ImageTk.PhotoImage(img_boca_orig.rotate(90, expand=True)) 
             }
-        except Exception as e:
-            print(f"Error cargando sprite boca: {e}")
+        except Exception:
             img_vacia_h = tk.PhotoImage(width=256, height=128)
             img_vacia_v = tk.PhotoImage(width=128, height=256)
             self.boca_imgs = {'up': img_vacia_h, 'down': img_vacia_h, 'left': img_vacia_v, 'right': img_vacia_v}
 
-        self.enemigos = []
-        
-        # Variables de tiempo general
+        # --- SISTEMAS DE DIFICULTAD Y MEMORIA ---
+        self.dificultad = 1
+        self.intervalo_spawn = 4.5  
         self.tiempo_inicio = time.time()
-        self.intervalo_spawn = 5.0  
         self.siguiente_spawn = self.tiempo_inicio + 2.0 
-        self.ultimo_reduccion = self.tiempo_inicio
+        self.tiempo_cambio_dificultad = self.tiempo_inicio + 25.0 
+        self.siguiente_boca_spawn = self.tiempo_inicio + 15.0
         
-        self.root.after(16, self.game_loop)
+        self.ultimos_patrones = ['', '', ''] 
+        self.ultimos_patrones_bocas = ['normal', 'normal', 'normal'] # Memoria de 3 para bocas
         
-    def crear_enemigo(self, x, y, vx, vy):
-        tipos_disponibles = [k for k in self.sprites.keys() if not k.endswith('_color')]
-        tipo_elegido = random.choice(tipos_disponibles)
-        sprite_img = self.sprites[tipo_elegido]
+        # --- VSYNC 60 FPS ---
+        self.target_fps = 60
+        self.frame_time = 1.0 / self.target_fps
+        self.ultimo_frame = time.time()
+
+        # --- POOL OPTIMIZADO ---
+        self.max_meteoritos = 500 
+        self.pool_inactivos = []
+        self.entidades_activas = []
+        tipos_nombres = list(self.sprites.keys())
         
-        if sprite_img.width() == self.sprite_size and not hasattr(sprite_img, 'paste'):
-            color = self.sprites.get(f"{tipo_elegido}_color", 'white')
-            obj_id = self.canvas.create_oval(x, y, x + self.sprite_size, y + self.sprite_size, fill=color, outline='')
+        for _ in range(self.max_meteoritos):
+            tipo = random.choice(tipos_nombres)
+            obj_id = self.canvas.create_image(-500, -500, image=self.sprites[tipo], anchor='center', state='hidden')
+            self.pool_inactivos.append({
+                'id': obj_id, 'x': -500.0, 'y': -500.0, 
+                'vx': 0.0, 'vy': 0.0, 'vx_real': 0.0, 'vy_real': 0.0, 
+                'tipo_mov': '', 'amp': 0, 'frec': 0, 'fase': 0,
+                'base_x': 0.0, 'base_y': 0.0, 't_spawn': 0.0,
+                'img_original': self.sprites[tipo], 'img_telegrafo': self.telegrafos[tipo],
+                'telegrafiando': False, 't_activacion': 0.0
+            })
+            
+        print(f"[ZABA-Engine] INICIANDO EN NIVEL {self.dificultad} | Motor VSync 60FPS + Telegraph Predictor")
+        self.root.after(1, self.game_loop) 
+        
+    def crear_enemigo(self, x, y, vx, vy, tipo_mov='lineal', amplitud=0, frecuencia=0, fase=0):
+        if not self.pool_inactivos: return 
+        
+        e = self.pool_inactivos.pop()
+        e['x'], e['y'] = float(x), float(y)
+        e['vx_real'], e['vy_real'] = float(vx), float(vy) # Guardamos la vel real
+        e['tipo_mov'] = tipo_mov
+        e['amp'], e['frec'], e['fase'] = amplitud, frecuencia, fase
+        e['base_x'], e['base_y'] = float(x), float(y)
+        
+        margen_seguro = 150
+        es_adentro = (margen_seguro < x < self.screen_w - margen_seguro) and (margen_seguro < y < self.screen_h - margen_seguro)
+        e['telegrafiando'] = es_adentro
+        
+        if es_adentro:
+            tiempo_aviso = max(1.0, 1.8 - (self.dificultad * 0.1))
+            e['t_activacion'] = time.time() + tiempo_aviso
+            # 🔮 Mueve al 8% de velocidad para dibujar la forma lentamente
+            e['vx'] = e['vx_real'] * 0.08
+            e['vy'] = e['vy_real'] * 0.08
+            self.canvas.itemconfig(e['id'], image=e['img_telegrafo'], state='normal')
         else:
-            obj_id = self.canvas.create_image(x, y, image=sprite_img, anchor='nw')
+            e['t_spawn'] = time.time()
+            e['vx'], e['vy'] = e['vx_real'], e['vy_real']
+            self.canvas.itemconfig(e['id'], image=e['img_original'], state='normal')
         
-        self.enemigos.append({'id': obj_id, 'x': float(x), 'y': float(y), 'vx': float(vx), 'vy': float(vy)})
+        self.canvas.coords(e['id'], x, y)
+        self.entidades_activas.append(e)
+
+    def crear_alerta_boca(self, lado, delay=1.5):
+        """Helper para generar alertas de bocas fácilmente"""
+        if lado == 'abajo':
+            x, y = random.randint(0, self.screen_w - 256), self.screen_h
+            datos = {'x': x, 'y': y, 'vx': 0, 'vy': -35, 'ax': 0, 'ay': 1.0, 'estado': 'in', 'origen': lado, 'img_in': self.boca_imgs['up'], 'img_out': self.boca_imgs['down'], 'w': 256, 'h': 128}
+            ax1, ay1, ax2, ay2 = x, self.screen_h - 20, x + 256, self.screen_h
+        elif lado == 'arriba':
+            x, y = random.randint(0, self.screen_w - 256), -128
+            datos = {'x': x, 'y': y, 'vx': 0, 'vy': 35, 'ax': 0, 'ay': -1.0, 'estado': 'in', 'origen': lado, 'img_in': self.boca_imgs['down'], 'img_out': self.boca_imgs['up'], 'w': 256, 'h': 128}
+            ax1, ay1, ax2, ay2 = x, 0, x + 256, 20
+        elif lado == 'der':
+            x, y = self.screen_w, random.randint(0, self.screen_h - 256)
+            datos = {'x': x, 'y': y, 'vx': -35, 'vy': 0, 'ax': 1.0, 'ay': 0, 'estado': 'in', 'origen': lado, 'img_in': self.boca_imgs['left'], 'img_out': self.boca_imgs['right'], 'w': 128, 'h': 256}
+            ax1, ay1, ax2, ay2 = self.screen_w - 20, y, self.screen_w, y + 256
+        elif lado == 'izq':
+            x, y = -128, random.randint(0, self.screen_h - 256)
+            datos = {'x': x, 'y': y, 'vx': 35, 'vy': 0, 'ax': -1.0, 'ay': 0, 'estado': 'in', 'origen': lado, 'img_in': self.boca_imgs['right'], 'img_out': self.boca_imgs['left'], 'w': 128, 'h': 256}
+            ax1, ay1, ax2, ay2 = 0, y, 20, y + 256
+        
+        alerta_id = self.canvas.create_rectangle(ax1, ay1, ax2, ay2, fill='red', outline='', width=0)
+        self.alertas.append({'id': alerta_id, 'tiempo_spawn': time.time() + delay, 'datos': datos})
 
     def generar_bocas(self):
-        cantidad = random.randint(1, 3)
-        lados = ['arriba', 'abajo', 'izq', 'der']
+        patrones_disp = ['normal']
+        if self.dificultad >= 5:
+            patrones_disp.extend(['doble_lado', 'secuencia_ejes', 'ventilador'])
+            
+        # Filtramos para que no se repitan antes de 3 turnos
+        disponibles = [p for p in patrones_disp if p not in self.ultimos_patrones_bocas]
+        if not disponibles: disponibles = ['normal']
         
-        for _ in range(cantidad):
-            lado = random.choice(lados)
-            # Configuración de salto (inercia vs gravedad)
-            if lado == 'abajo':
-                x = random.randint(0, self.screen_w - 256) # Ajustado al ancho real
-                y = self.screen_h
-                obj_id = self.canvas.create_image(x, y, image=self.boca_imgs['up'], anchor='nw')
-                self.bocas.append({'id': obj_id, 'x': x, 'y': y, 'vx': 0, 'vy': -35, 'ax': 0, 'ay': 1.0, 'estado': 'in', 'origen': lado, 'img_out': self.boca_imgs['down'], 'w': 256, 'h': 128}) # Hitbox corregida
+        patron = random.choice(disponibles)
+        
+        # Actualizamos la memoria
+        self.ultimos_patrones_bocas.pop(0)
+        self.ultimos_patrones_bocas.append(patron)
+        
+        if patron == 'normal':
+            cant = random.randint(1, 2 if self.dificultad >= 8 else 1)
+            for _ in range(cant):
+                self.crear_alerta_boca(random.choice(['arriba', 'abajo', 'izq', 'der']), delay=1.5)
+                
+        elif patron == 'doble_lado':
+            cant = random.randint(2, 3)
+            for _ in range(cant):
+                self.crear_alerta_boca('izq', delay=1.5)
+                self.crear_alerta_boca('der', delay=1.5)
+                
+        elif patron == 'secuencia_ejes':
+            secuencia = random.choice([('izq', 'der', 'arriba', 'abajo'), ('arriba', 'abajo', 'izq', 'der')])
+            self.crear_alerta_boca(secuencia[0], delay=1.5)
+            self.crear_alerta_boca(secuencia[1], delay=1.5)
+            self.crear_alerta_boca(secuencia[2], delay=3.0)
+            self.crear_alerta_boca(secuencia[3], delay=3.0)
+            self.crear_alerta_boca(secuencia[0], delay=4.5)
+            self.crear_alerta_boca(secuencia[1], delay=4.5)
             
-            elif lado == 'arriba':
-                x = random.randint(0, self.screen_w - 256) # Ajustado al ancho real
-                y = -128 # Ajustado a la altura real
-                obj_id = self.canvas.create_image(x, y, image=self.boca_imgs['down'], anchor='nw')
-                self.bocas.append({'id': obj_id, 'x': x, 'y': y, 'vx': 0, 'vy': 35, 'ax': 0, 'ay': -1.0, 'estado': 'in', 'origen': lado, 'img_out': self.boca_imgs['up'], 'w': 256, 'h': 128}) # Hitbox corregida
-            
-            elif lado == 'der':
-                x = self.screen_w
-                y = random.randint(0, self.screen_h - 256) # Ajustado a la altura real tras rotar
-                obj_id = self.canvas.create_image(x, y, image=self.boca_imgs['left'], anchor='nw')
-                self.bocas.append({'id': obj_id, 'x': x, 'y': y, 'vx': -35, 'vy': 0, 'ax': 1.0, 'ay': 0, 'estado': 'in', 'origen': lado, 'img_out': self.boca_imgs['right'], 'w': 128, 'h': 256}) # Ancho y alto invertidos (vertical)
-            
-            elif lado == 'izq':
-                x = -128 # Ajustado al ancho real tras rotar
-                y = random.randint(0, self.screen_h - 256) # Ajustado a la altura real tras rotar
-                obj_id = self.canvas.create_image(x, y, image=self.boca_imgs['right'], anchor='nw')
-                self.bocas.append({'id': obj_id, 'x': x, 'y': y, 'vx': 35, 'vy': 0, 'ax': -1.0, 'ay': 0, 'estado': 'in', 'origen': lado, 'img_out': self.boca_imgs['left'], 'w': 128, 'h': 256}) # Ancho y alto invertidos (vertical)
+        elif patron == 'ventilador':
+            vueltas = random.randint(2, 3)
+            sentido = random.choice([['arriba', 'der', 'abajo', 'izq'], ['arriba', 'izq', 'abajo', 'der']])
+            delay_acum = 1.0
+            for _ in range(vueltas):
+                for lado in sentido:
+                    self.crear_alerta_boca(lado, delay=delay_acum)
+                    delay_acum += 0.6
 
     def generar_oleada(self):
-        patrones = ['circulo', 'muro_h', 'muro_v', 'esquinas', 'cruz', 'anillo_doble', 'lluvia_diagonal', 'enjambre_random']
-        patron = random.choice(patrones)
+        todos_los_patrones = ['circulo', 'muro_h', 'muro_v', 'esquinas', 'cruz_expansiva', 'anillo_doble', 'lluvia_diagonal', 'serpiente']
+        patrones_disponibles = [p for p in todos_los_patrones if p not in self.ultimos_patrones]
+        patron = random.choice(patrones_disponibles)
+        
+        self.ultimos_patrones.pop(0)
+        self.ultimos_patrones.append(patron)
+        
         margen = 100 
-        velocidad = random.uniform(4.0, 8.0)
+        dif = self.dificultad
+        multiplicador_vel = random.uniform(0.7, 1.5)
+        vel_base = random.uniform(3.0 + (dif * 0.2), 4.5 + (dif * 0.3)) * multiplicador_vel
         centro_x, centro_y = self.screen_w / 2, self.screen_h / 2
         
         if patron == 'circulo':
-            radio = max(self.screen_w, self.screen_h) / 2 + margen
-            for i in range(12):
-                angulo = (2 * math.pi / 12) * i
-                x, y = centro_x + math.cos(angulo) * radio, centro_y + math.sin(angulo) * radio
-                dx, dy = centro_x - x, centro_y - y
-                d = math.hypot(dx, dy)
-                self.crear_enemigo(x, y, (dx/d)*velocidad, (dy/d)*velocidad)
-        elif patron == 'cruz':
-            for i in range(1, 7):
-                offset = i * 150
-                self.crear_enemigo(centro_x, -margen - offset, 0, velocidad)
-                self.crear_enemigo(centro_x, self.screen_h + margen + offset, 0, -velocidad)
-                self.crear_enemigo(-margen - offset, centro_y, velocidad, 0)
-                self.crear_enemigo(self.screen_w + margen + offset, centro_y, -velocidad, 0)
-        elif patron == 'anillo_doble':
-            for r_mult, v_mult, dir_g in [(1, 1, 1), (1.5, 0.7, -1)]:
-                radio = (self.screen_w / 2) * r_mult + margen
-                for i in range(8):
-                    angulo = (2 * math.pi / 8) * i
-                    x, y = centro_x + math.cos(angulo) * radio, centro_y + math.sin(angulo) * radio
-                    dx, dy = centro_x - x, centro_y - y
-                    d = math.hypot(dx, dy)
-                    self.crear_enemigo(x, y, (dx/d)*velocidad*v_mult, (dy/d)*velocidad*v_mult)
-        elif patron == 'lluvia_diagonal':
-            for _ in range(15):
-                x = random.randint(-margen, self.screen_w)
-                y = random.randint(-margen*3, -margen)
-                self.crear_enemigo(x, y, velocidad * 0.8, velocidad * 1.2)
-        elif patron == 'enjambre_random':
-            lado_orig = random.choice(['arriba', 'abajo', 'izq', 'der'])
-            for _ in range(random.randint(10, 20)):
-                if lado_orig == 'arriba':
-                    self.crear_enemigo(random.randint(0, self.screen_w), -margen, random.uniform(-2, 2), random.uniform(velocidad*0.5, velocidad))
-                elif lado_orig == 'abajo':
-                    self.crear_enemigo(random.randint(0, self.screen_w), self.screen_h + margen, random.uniform(-2, 2), random.uniform(-velocidad, -velocidad*0.5))
-                elif lado_orig == 'izq':
-                    self.crear_enemigo(-margen, random.randint(0, self.screen_h), random.uniform(velocidad*0.5, velocidad), random.uniform(-2, 2))
-                else:
-                    self.crear_enemigo(self.screen_w + margen, random.randint(0, self.screen_h), random.uniform(-velocidad, -velocidad*0.5), random.uniform(-2, 2))
+            num_ondas = random.randint(1, 3 if dif >= 4 else 1)
+            for _ in range(num_ondas):
+                rx = random.randint(150, self.screen_w - 150)
+                ry = random.randint(150, self.screen_h - 150)
+                cantidad = int(8 + (dif * 1.2)) if num_ondas == 1 else int(5 + (dif * 0.8))
+                vel_explosion = vel_base * random.uniform(0.6, 1.6)
+                for i in range(cantidad):
+                    angulo = (math.pi * 2 / cantidad) * i
+                    self.crear_enemigo(rx, ry, math.cos(angulo) * vel_explosion, math.sin(angulo) * vel_explosion)
+                
         elif patron == 'muro_h':
-            espaciado = self.screen_w / 9
-            for i in range(1, 9): self.crear_enemigo(i * espaciado, -margen, 0, velocidad)
+            cantidad = int(8 + (dif * 1.2))
+            espaciado = self.screen_w / cantidad
+            hueco_seguro = random.randint(2, cantidad - 4)
+            dir_y = random.choice([1, -1])
+            y_start = -margen if dir_y == 1 else self.screen_h + margen
+            for i in range(cantidad):
+                if i in [hueco_seguro, hueco_seguro + 1, hueco_seguro + 2]: continue 
+                self.crear_enemigo(i * espaciado, y_start, 0, vel_base * dir_y)
+                
         elif patron == 'muro_v':
-            espaciado = self.screen_h / 9
-            for i in range(1, 9): self.crear_enemigo(-margen, i * espaciado, velocidad, 0)
-        else:
-            self.crear_enemigo(-margen, -margen, velocidad, velocidad)
+            cantidad = int(6 + (dif * 1.2))
+            espaciado = self.screen_h / cantidad
+            hueco_seguro = random.randint(2, cantidad - 4)
+            dir_x = random.choice([1, -1])
+            x_start = -margen if dir_x == 1 else self.screen_w + margen
+            for i in range(cantidad):
+                if i in [hueco_seguro, hueco_seguro + 1, hueco_seguro + 2]: continue
+                self.crear_enemigo(x_start, i * espaciado, vel_base * dir_x, 0)
+                
+        elif patron == 'esquinas':
+            cantidad = int(2 + (dif * 1.0))
+            esquinas = [(0,0), (self.screen_w, 0), (0, self.screen_h), (self.screen_w, self.screen_h)]
+            for ex, ey in esquinas:
+                dx, dy = centro_x - ex, centro_y - ey
+                dist = math.hypot(dx, dy)
+                vx, vy = (dx/dist) * vel_base, (dy/dist) * vel_base
+                for i in range(cantidad):
+                    self.crear_enemigo(ex - vx*i*50, ey - vy*i*50, vx, vy)
+                    
+        elif patron == 'cruz_expansiva':
+            brazos = 8 if dif >= 6 else 4
+            orbes_por_brazo = int(4 + (dif * 0.5))
+            rx = random.randint(int(centro_x - 300), int(centro_x + 300))
+            ry = random.randint(int(centro_y - 200), int(centro_y + 200))
+            for i in range(1, orbes_por_brazo + 1):
+                vel_estela = vel_base * (0.8 + (i * 0.2)) 
+                for b in range(brazos):
+                    angulo = (math.pi * 2 / brazos) * b
+                    angulo_final = angulo + (i * 0.1) if brazos == 4 else angulo 
+                    self.crear_enemigo(rx, ry, math.cos(angulo_final) * vel_estela, math.sin(angulo_final) * vel_estela)
+                
+        elif patron == 'anillo_doble':
+            rx = random.randint(200, self.screen_w - 200)
+            ry = random.randint(200, self.screen_h - 200)
+            cantidad = int(8 + (dif * 1.2))
+            for i in range(cantidad):
+                angulo = (math.pi * 2 / cantidad) * i
+                self.crear_enemigo(rx, ry, math.cos(angulo) * vel_base, math.sin(angulo) * vel_base)
+                if dif >= 5:
+                    self.crear_enemigo(rx, ry, math.cos(angulo) * (vel_base*0.6), math.sin(angulo) * (vel_base*0.6))
+                
+        elif patron == 'lluvia_diagonal':
+            cantidad = int(6 + (dif * 1.5))
+            espaciado = self.screen_w / cantidad
+            for i in range(cantidad): 
+                self.crear_enemigo(i * espaciado, -margen, vel_base * 0.8, vel_base * 1.2)
+            if dif >= 4:
+                for i in range(cantidad):
+                    self.crear_enemigo((i * espaciado) + (espaciado/2), -margen - 150, vel_base * 0.8, vel_base * 1.2)
+                
+        elif patron == 'serpiente':
+            orientacion = random.choice(['horizontal', 'vertical'])
+            num_filas = 1 if dif < 5 else (2 if dif < 9 else 3)
+            # 🐍 SERPIENTES MÁS LARGAS: Mínimo 20 orbes.
+            largo_serpiente = int(20 + (dif * 1.5)) 
+            vel_px_sec = vel_base * 41.0
+            distancia = 45.0 
+            
+            frecuencia_unificada = random.uniform(1.5, 2.5)
+            amplitud_unificada = random.uniform(80, 130)
+            
+            if orientacion == 'horizontal':
+                espaciado = self.screen_h / (num_filas + 1)
+                dir_x = random.choice([1, -1])
+                x_start = -margen if dir_x == 1 else self.screen_w + margen
+                for f in range(1, num_filas + 1):
+                    y_base = f * espaciado
+                    for i in range(largo_serpiente):
+                        retraso_fase = - (frecuencia_unificada * (distancia / vel_px_sec) * i)
+                        self.crear_enemigo(x_start - (i * distancia * dir_x), y_base, vel_base * dir_x, 0, 
+                                           'serpiente', amplitud_unificada, frecuencia_unificada, retraso_fase)
+            else:
+                espaciado = self.screen_w / (num_filas + 1)
+                dir_y = random.choice([1, -1])
+                y_start = -margen if dir_y == 1 else self.screen_h + margen
+                for f in range(1, num_filas + 1):
+                    x_base = f * espaciado
+                    for i in range(largo_serpiente):
+                        retraso_fase = - (frecuencia_unificada * (distancia / vel_px_sec) * i)
+                        self.crear_enemigo(x_base, y_start - (i * distancia * dir_y), 0, vel_base * dir_y, 
+                                           'serpiente', amplitud_unificada, frecuencia_unificada, retraso_fase)
 
     def game_loop(self):
         tiempo_actual = time.time()
+        dt = tiempo_actual - self.ultimo_frame
         
-        # Timer Oleadas
-        if tiempo_actual - self.ultimo_reduccion >= 10.0:
-            self.intervalo_spawn = max(1.0, self.intervalo_spawn - 0.1)
-            self.ultimo_reduccion += 10.0
+        if dt < self.frame_time:
+            espera = int((self.frame_time - dt) * 1000)
+            self.root.after(max(1, espera), self.game_loop)
+            return
+            
+        if dt > 0.1: dt = 0.1 
+        self.ultimo_frame = tiempo_actual
+        factor_velocidad = dt * 60.0
+        
+        # --- GESTOR DE DIFICULTAD ---
+        if tiempo_actual >= self.tiempo_cambio_dificultad and self.dificultad < 10:
+            self.dificultad += 1
+            self.tiempo_cambio_dificultad = tiempo_actual + 25.0
+            self.intervalo_spawn = max(2.2, 5.0 - (self.dificultad * 0.30))
+            print(f"[ZABA-Engine] ⚠️ ¡NIVEL DE DIFICULTAD {self.dificultad}/10! ⚠️")
         
         if tiempo_actual >= self.siguiente_spawn:
             self.generar_oleada()
             self.siguiente_spawn = tiempo_actual + self.intervalo_spawn
             
-        # Timer Bocas
         if tiempo_actual >= self.siguiente_boca_spawn:
             self.generar_bocas()
-            self.siguiente_boca_spawn = tiempo_actual + random.uniform(5.0, 8.0)
+            self.siguiente_boca_spawn = tiempo_actual + random.uniform(15.0 - (self.dificultad*0.4), 22.0 - (self.dificultad*0.6))
             
         mouse_x = self.root.winfo_pointerx()
         mouse_y = self.root.winfo_pointery()
         target_x = max(0, min(mouse_x, self.screen_w))
         target_y = max(0, min(mouse_y, self.screen_h))
         
-        move_func = self.canvas.move
+        coords_func = self.canvas.coords
+        itemconfig_func = self.canvas.itemconfig
         delete_func = self.canvas.delete
+        sin_func = math.sin
         w, h = self.screen_w, self.screen_h
-        
-        # --- ACTUALIZACIÓN DE BOCAS ---
+        margen_borrado = 1000 
+
+        # --- ALERTAS Y BOCAS ---
+        alertas_vivas = []
+        parpadeo_rojo = (int(tiempo_actual * 15) % 2 == 0)
+        for a in self.alertas:
+            itemconfig_func(a['id'], fill='red' if parpadeo_rojo else 'yellow')
+            if tiempo_actual >= a['tiempo_spawn']:
+                delete_func(a['id'])
+                d = a['datos']
+                d['id'] = self.canvas.create_image(d['x'], d['y'], image=d['img_in'], anchor='nw')
+                self.bocas.append(d)
+            else:
+                alertas_vivas.append(a)
+        self.alertas = alertas_vivas
+
         bocas_vivas = []
         for b in self.bocas:
-            # Aplicar gravedad
-            b['vx'] += b['ax']
-            b['vy'] += b['ay']
-            
-            # Comprobar si llegó al punto máximo del salto para girar la imagen
+            b['vx'] += b['ax'] * factor_velocidad
+            b['vy'] += b['ay'] * factor_velocidad
             if b['estado'] == 'in':
-                cambio = False
-                if b['origen'] == 'abajo' and b['vy'] >= 0: cambio = True
-                elif b['origen'] == 'arriba' and b['vy'] <= 0: cambio = True
-                elif b['origen'] == 'der' and b['vx'] >= 0: cambio = True
-                elif b['origen'] == 'izq' and b['vx'] <= 0: cambio = True
-                
-                if cambio:
+                if (b['origen'] == 'abajo' and b['vy'] >= 0) or (b['origen'] == 'arriba' and b['vy'] <= 0) or \
+                   (b['origen'] == 'der' and b['vx'] >= 0) or (b['origen'] == 'izq' and b['vx'] <= 0):
                     b['estado'] = 'out'
-                    self.canvas.itemconfig(b['id'], image=b['img_out'])
+                    itemconfig_func(b['id'], image=b['img_out'])
             
-            ex = b['x'] + b['vx']
-            ey = b['y'] + b['vy']
-            b['x'], b['y'] = ex, ey
+            b['x'] += b['vx'] * factor_velocidad
+            b['y'] += b['vy'] * factor_velocidad
+            coords_func(b['id'], b['x'], b['y'])
             
-            move_func(b['id'], b['vx'], b['vy'])
-            
-            # Hitbox rectangular (detecta colisión en cualquier parte del sprite)
-            if ex < target_x < ex + b['w'] and ey < target_y < ey + b['h']:
+            if b['x'] < target_x < b['x'] + b['w'] and b['y'] < target_y < b['y'] + b['h']:
                 delete_func(b['id'])
                 continue
-                
-            # Limpieza cuando salen de la pantalla
-            if b['estado'] == 'out':
-                if ex > w + 200 or ex < -600 or ey > h + 200 or ey < -600:
-                    delete_func(b['id'])
-                    continue
-                    
+            if b['estado'] == 'out' and (b['x'] > w + 200 or b['x'] < -600 or b['y'] > h + 200 or b['y'] < -600):
+                delete_func(b['id'])
+                continue
             bocas_vivas.append(b)
         self.bocas = bocas_vivas
 
-        # --- ACTUALIZACIÓN DE METEORITOS (SPRITES PEQUEÑOS) ---
-        enemigos_vivos = []
-        radio_col = 20
-        margen = 200
-        mitad = self.sprite_size / 2
-        
-        for e in self.enemigos:
-            ex = e['x'] + e['vx']
-            ey = e['y'] + e['vy']
-            e['x'], e['y'] = ex, ey
+        # --- ACTUALIZACIÓN DE METEORITOS ---
+        entidades_vivas = []
+        for e in self.entidades_activas:
+            debe_morir = False
             
-            move_func(e['id'], e['vx'], e['vy'])
-            
-            cx = ex + mitad
-            cy = ey + mitad
-            dx = target_x - cx
-            dy = target_y - cy
-            
-            if abs(dx) < radio_col and abs(dy) < radio_col:
-                if (dx*dx + dy*dy) < (radio_col*radio_col):
-                    delete_func(e['id'])
-                    continue 
-            
-            if (ex < -margen or ex > w + margen or ey < -margen or ey > h + margen):
-                delete_func(e['id'])
-            else:
-                enemigos_vivos.append(e)
+            # Lógica de Telegráfico
+            if e['telegrafiando']:
+                if tiempo_actual >= e['t_activacion']:
+                    e['telegrafiando'] = False
+                    e['t_spawn'] = tiempo_actual 
+                    e['vx'], e['vy'] = e['vx_real'], e['vy_real'] # Recupera la velocidad
+                    e['base_x'], e['base_y'] = e['x'], e['y'] # Actualiza base
+                    itemconfig_func(e['id'], image=e['img_original'])
                 
-        self.enemigos = enemigos_vivos
-        
-        self.root.after(16, self.game_loop)
+                # Sigue moviéndose lento, pero SIN dañar al jugador
+                e['x'] += e['vx'] * factor_velocidad
+                e['y'] += e['vy'] * factor_velocidad
+                coords_func(e['id'], e['x'], e['y'])
+                entidades_vivas.append(e)
+                continue 
+            
+            # Movimiento normal
+            if e['tipo_mov'] == 'serpiente':
+                t = tiempo_actual - e['t_spawn']
+                e['base_x'] += e['vx'] * factor_velocidad
+                e['base_y'] += e['vy'] * factor_velocidad
+                
+                if e['vy'] != 0: 
+                    e['x'] = e['base_x'] + sin_func(t * e['frec'] + e['fase']) * e['amp']
+                    e['y'] = e['base_y']
+                else: 
+                    e['x'] = e['base_x']
+                    e['y'] = e['base_y'] + sin_func(t * e['frec'] + e['fase']) * e['amp']
+            else:
+                e['x'] += e['vx'] * factor_velocidad
+                e['y'] += e['vy'] * factor_velocidad
+            
+            coords_func(e['id'], e['x'], e['y'])
+            
+            # Hitbox
+            if e['x'] - 18 < target_x < e['x'] + 18 and e['y'] - 18 < target_y < e['y'] + 18:
+                debe_morir = True
+            elif (e['x'] < -margen_borrado or e['x'] > w + margen_borrado or e['y'] < -margen_borrado or e['y'] > h + margen_borrado):
+                debe_morir = True
+                
+            if debe_morir:
+                itemconfig_func(e['id'], state='hidden')
+                self.pool_inactivos.append(e)
+            else:
+                entidades_vivas.append(e)
+                
+        self.entidades_activas = entidades_vivas
+        self.root.after(1, self.game_loop) 
 
 if __name__ == "__main__":
     juego = MinijuegoEscritorio()
