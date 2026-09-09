@@ -64,15 +64,15 @@ image menu_logo:
     "mod_assets/DDLCModTemplateLogo.png"
     # im.Composite((512, 512), (0, 0), recolorize("mod_assets/logo_bg.png"), (0, 0), "mod_assets/logo_fg.png")
     subpixel True
-    xcenter 240
-    ycenter 120
+    xcenter 640
+    ycenter 280
     zoom 0.60
     menu_logo_move
 
 # This image shows the main menu polka-dot image.
 image menu_bg:
     topleft
-    "gui/menu_bg.png"
+    "mod_assets/gui/menu_bg.png"
     # recolorize("gui/menu_bg.png", "#ffdbf0", "#fff", 1)
     menu_bg_move
 
@@ -92,34 +92,35 @@ image menu_fade:
 image menu_art_y:
     subpixel True
     "gui/menu_art_y.png"
-    xcenter 600
-    ycenter 335
+    xcenter 480
+    ycenter 370
     zoom 0.60
-    menu_art_move(0.54, 600, 0.60)
+    
+    menu_art_move(0.25, 480, 0.60)
 
 image menu_art_n:
     subpixel True
     "gui/menu_art_n.png"
-    xcenter 750
-    ycenter 385
-    zoom 0.58
-    menu_art_move(0.58, 750, 0.58)
+    xcenter 800
+    ycenter 370
+    zoom 0.60
+    menu_art_move(0.25, 800, 0.60)
 
 image menu_art_s:
     subpixel True
     "gui/menu_art_s.png"
-    xcenter 510
-    ycenter 500
-    zoom 0.68
-    menu_art_move(0.68, 510, 0.68)
+    xcenter 180
+    ycenter 370
+    zoom 0.60
+    menu_art_move(0.25, 180, 0.60)
 
 image menu_art_m:
     subpixel True
     "gui/menu_art_m.png"
-    xcenter 1000
-    ycenter 640
-    zoom 1.00
-    menu_art_move(1.00, 1000, 1.00)
+    xcenter 1100
+    ycenter 370
+    zoom 0.60
+    menu_art_move(0.25, 1100, 0.60)
 
 # These images are the same as above but ghost themed for the secret ghost menu
 # that appears rarely in-game .
@@ -166,7 +167,7 @@ image menu_art_s_glitch:
 
 # This image shows the main menu screen in the main/pause menu.
 image menu_nav:
-    "gui/overlay/main_menu.png"
+    "mod_assets/gui/overlay/main_menu.png"
     #recolorize("gui/overlay/main_menu.png", "#ffbde1")
     menu_nav_move
 
@@ -178,8 +179,8 @@ image menu_nav:
 # the game starts.
 image menu_particles:
     2.481
-    xpos 224
-    ypos 104
+    xcenter 640
+    ycenter 360
     ParticleBurst("gui/menu_particle.png", explodeTime=0, numParticles=40, particleTime=2.0, particleXSpeed=3, particleYSpeed=3).sm
     particle_fadeout
 
@@ -193,35 +194,31 @@ transform menu_bg_move:
     topleft
     parallel:
         xoffset 0 yoffset 0
-        linear 3.0 xoffset -100 yoffset -100
+        linear 60.0 xoffset -1280
         repeat
-    parallel:
-        ypos 0
-        time 0.65
-        ease_cubic 2.5 ypos -500
 
 # This transform loops the polka-dot moving effect.
 transform menu_bg_loop:
     subpixel True
     topleft
     parallel:
-        xoffset 0 yoffset 0
-        linear 3.0 xoffset -100 yoffset -100
+        xoffset 2570 yoffset 0
+        linear 60.0 xoffset 0
         repeat
 
 # This transform moves the menu logo down to it's intended placement in-game.
 transform menu_logo_move:
     subpixel True
-    yoffset -300
+    yoffset -520
     time 1.925
     easein_bounce 1.5 yoffset 0
 
 # This transform moves the main menu screen in-game to be visible.
 transform menu_nav_move:
     subpixel True
-    xoffset -500
+    yoffset 500
     time 1.5
-    easein_quint 1 xoffset 0
+    easein_quint 1 yoffset 0
 
 # This transform fades out the main menu screen. 
 transform menu_fadeout:
