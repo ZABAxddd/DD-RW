@@ -146,6 +146,10 @@ init python:
 # Example: 
 #   define audio.t2 = "bgm/2.ogg"
 
+define audio.tmenu = "mod_assets/bgm/mainmenu.ogg"
+define audio.tunem = "mod_assets/bgm/enumniam.ogg"
+
+
 define audio.t1 = "<loop 22.073>bgm/1.ogg" # Doki Doki Literature Club! - Main Theme
 define audio.t2 = "<loop 4.499>bgm/2.ogg" # Ohayou Sayori! - Sayori Theme
 define audio.t2g = "bgm/2g.ogg"

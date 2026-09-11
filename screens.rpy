@@ -473,8 +473,8 @@ screen navigation():
             style_prefix "navigation"
 
             xpos gui.navigation_xpos
-            yalign 0.85
-            xalign -0.125
+            yalign 0.90
+            xalign 0
             spacing gui.navigation_spacing
 
             if not persistent.autoload or not main_menu:
@@ -484,15 +484,15 @@ screen navigation():
                     if persistent.playthrough == 1:
                         textbutton _("ŔŗñĮ¼»ŧþŀÂŻŕěōì«") action If(persistent.playername, true=Start(), false=Show(screen="name_input", message="Please enter your name", ok_action=Function(FinishEnterName)))
                     else:
-                        textbutton _("New Game") action If(persistent.playername, true=Start(), false=Show(screen="name_input", message="Please enter your name", ok_action=Function(FinishEnterName)))
+                        textbutton _("Nuevo Juego") action If(persistent.playername, true=Start(), false=Show(screen="name_input", message="Please enter your name", ok_action=Function(FinishEnterName)))
 
                 else:
 
-                    textbutton _("History") action [ShowMenu("history"), SensitiveIf(renpy.get_screen("history") == None)]
+                    textbutton _("Historial") action [ShowMenu("history"), SensitiveIf(renpy.get_screen("history") == None)]
 
-                    textbutton _("Save Game") action [ShowMenu("save"), SensitiveIf(renpy.get_screen("save") == None)]
+                    textbutton _("Guardar partida") action [ShowMenu("save"), SensitiveIf(renpy.get_screen("save") == None)]
 
-                textbutton _("Load Game") action [ShowMenu("load"), SensitiveIf(renpy.get_screen("load") == None)]
+                textbutton _("Cargar partida") action [ShowMenu("load"), SensitiveIf(renpy.get_screen("load") == None)]
 
                 if enable_extras_menu:
                     textbutton _("Extras") action [ShowMenu("extras"), SensitiveIf(renpy.get_screen("extras") == None)]
@@ -503,22 +503,22 @@ screen navigation():
 
                 elif not main_menu:
                     if persistent.playthrough != 3:
-                        textbutton _("Main Menu") action MainMenu()
+                        textbutton _("Menu Principal") action MainMenu()
                     else:
-                        textbutton _("Main Menu") action NullAction()
+                        textbutton _("Menu Principal") action NullAction()
 
-                textbutton _("Settings") action [ShowMenu("preferences"), SensitiveIf(renpy.get_screen("preferences") == None)]
+                textbutton _("Configuación") action [ShowMenu("preferences"), SensitiveIf(renpy.get_screen("preferences") == None)]
 
                 if not enable_extras_menu:
-                    textbutton _("Credits") action ShowMenu("about")
+                    textbutton _("Creditos") action ShowMenu("about")
 
                 if renpy.variant("pc"):
 
                     ## Help isn't necessary or relevant to mobile devices.
-                    textbutton _("Help") action [Help("README.html"), Show(screen="dialog", message="The help file has been opened in your browser.", ok_action=Hide("dialog"))]
+                    textbutton _("Ayuda") action [Help("README.html"), Show(screen="dialog", message="The help file has been opened in your browser.", ok_action=Hide("dialog"))]
 
                     ## The quit button is banned on iOS and unnecessary on Android.
-                    textbutton _("Quit") action Quit(confirm=not main_menu)
+                    textbutton _("Salir") action Quit(confirm=not main_menu)
             else:
                 timer 1.75 action Start("autoload_yurikill")
     else:
@@ -537,15 +537,15 @@ screen navigation():
                     if persistent.playthrough == 1:
                         textbutton _("ŔŗñĮ¼»ŧþŀÂŻŕěōì«") action If(persistent.playername, true=Start(), false=Show(screen="name_input", message="Please enter your name", ok_action=Function(FinishEnterName)))
                     else:
-                        textbutton _("New Game") action If(persistent.playername, true=Start(), false=Show(screen="name_input", message="Please enter your name", ok_action=Function(FinishEnterName)))
+                        textbutton _("Nuevo Juego") action If(persistent.playername, true=Start(), false=Show(screen="name_input", message="Please enter your name", ok_action=Function(FinishEnterName)))
 
                 else:
 
-                    textbutton _("History") action [ShowMenu("history"), SensitiveIf(renpy.get_screen("history") == None)]
+                    textbutton _("Historial") action [ShowMenu("history"), SensitiveIf(renpy.get_screen("history") == None)]
 
-                    textbutton _("Save Game") action [ShowMenu("save"), SensitiveIf(renpy.get_screen("save") == None)]
+                    textbutton _("Guardar Partida") action [ShowMenu("save"), SensitiveIf(renpy.get_screen("save") == None)]
 
-                textbutton _("Load Game") action [ShowMenu("load"), SensitiveIf(renpy.get_screen("load") == None)]
+                textbutton _("Cargar Partida") action [ShowMenu("load"), SensitiveIf(renpy.get_screen("load") == None)]
 
                 if enable_extras_menu:
                     textbutton _("Extras") action [ShowMenu("extras"), SensitiveIf(renpy.get_screen("extras") == None)]
@@ -556,22 +556,22 @@ screen navigation():
 
                 elif not main_menu:
                     if persistent.playthrough != 3:
-                        textbutton _("Main Menu") action MainMenu()
+                        textbutton _("Menu Principal") action MainMenu()
                     else:
-                        textbutton _("Main Menu") action NullAction()
+                        textbutton _("Menu Principal") action NullAction()
 
-                textbutton _("Settings") action [ShowMenu("preferences"), SensitiveIf(renpy.get_screen("preferences") == None)]
+                textbutton _("Configuración") action [ShowMenu("preferences"), SensitiveIf(renpy.get_screen("preferences") == None)]
 
                 if not enable_extras_menu:
-                    textbutton _("Credits") action ShowMenu("about")
+                    textbutton _("Creditos") action ShowMenu("about")
 
                 if renpy.variant("pc"):
 
                     ## Help isn't necessary or relevant to mobile devices.
-                    textbutton _("Help") action [Help("README.html"), Show(screen="dialog", message="The help file has been opened in your browser.", ok_action=Hide("dialog"))]
+                    textbutton _("Ayuda") action [Help("README.html"), Show(screen="dialog", message="The help file has been opened in your browser.", ok_action=Hide("dialog"))]
 
                     ## The quit button is banned on iOS and unnecessary on Android.
-                    textbutton _("Quit") action Quit(confirm=not main_menu)
+                    textbutton _("Salir") action Quit(confirm=not main_menu)
             else:
                 timer 1.75 action Start("autoload_yurikill")
 
@@ -608,18 +608,32 @@ screen main_menu():
     style_prefix "main_menu"
 
 
-    add "menu_bg"
-    add "menu_art_y"
-    add "menu_art_n"
-    add "menu_art_s"
-    add "menu_art_m"
+    if persistent.virus_mode:
+        add "menu_gb"
+    else:
+        add "menu_bg"
+    if not persistent.virus_mode:
+            
+        add "menu_art_y"
+        add "menu_art_n"
+        add "menu_art_s"
+        add "menu_art_m"
+    else:
+        add "menu_art_y_ghost"
+        add "menu_art_n_ghost"
+        add "menu_art_s_ghost"
+        add "menu_art_m_ghost"
     frame
 
 
     add "menu_particles"
     add "menu_particles"
     add "menu_particles"
-    add "menu_logo"
+    if persistent.virus_mode:
+        add "menu_logo_glitched"
+    else:
+        add "menu_logo"
+
     add "menu_particles"
 
     add "menu_fade"
@@ -645,12 +659,13 @@ style main_menu_version is main_menu_text:
     size 16
     outlines []
 
+
 style main_menu_frame:
     xsize 310
     yfill True
-
     background "menu_nav"
 
+        
 style main_menu_vbox:
     xalign 1.0
     xoffset -20

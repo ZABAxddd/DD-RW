@@ -59,20 +59,34 @@ image splash_warning = ParameterizedText(style="splash_text", xalign=0.5, yalign
 # These image transforms store the images and positions of the game logo,
 # the menu character sprites and main menu/pause menu screen images.
 
+
 # This image shows the DDLC logo in the normal DDLC position.
 image menu_logo:
-    "mod_assets/DDLCModTemplateLogo.png"
+    "mod_assets/logo.png"
     # im.Composite((512, 512), (0, 0), recolorize("mod_assets/logo_bg.png"), (0, 0), "mod_assets/logo_fg.png")
     subpixel True
     xcenter 640
     ycenter 280
     zoom 0.60
     menu_logo_move
-
+image menu_logo_glitched:
+    "mod_assets/ogol.png"
+    # im.Composite((512, 512), (0, 0), recolorize("mod_assets/logo_bg.png"), (0, 0), "mod_assets/logo_fg.png")
+    subpixel True
+    xcenter 640
+    ycenter 280
+    zoom 0.60
+    menu_logo_move
 # This image shows the main menu polka-dot image.
 image menu_bg:
     topleft
     "mod_assets/gui/menu_bg.png"
+    # recolorize("gui/menu_bg.png", "#ffdbf0", "#fff", 1)
+    menu_bg_move
+
+image menu_gb:
+    topleft
+    "mod_assets/gui/menu_gb.png"
     # recolorize("gui/menu_bg.png", "#ffdbf0", "#fff", 1)
     menu_bg_move
 
@@ -127,49 +141,68 @@ image menu_art_m:
 image menu_art_y_ghost:
     subpixel True
     "gui/menu_art_y_ghost.png"
-    xcenter 600
-    ycenter 335
+    xcenter 480
+    ycenter 370
     zoom 0.60
-    menu_art_move(0.54, 600, 0.60)
+    
+    menu_art_move(0.25, 480, 0.60)
 
 image menu_art_n_ghost:
     subpixel True
     "gui/menu_art_n_ghost.png"
-    xcenter 750
-    ycenter 385
-    zoom 0.58
-    menu_art_move(0.58, 750, 0.58)
+    xcenter 800
+    ycenter 370
+    zoom 0.60
+    menu_art_move(0.25, 800, 0.60)
 
 image menu_art_s_ghost:
     subpixel True
     "gui/menu_art_s_ghost.png"
-    xcenter 510
-    ycenter 500
-    zoom 0.68
-    menu_art_move(0.68, 510, 0.68)
-
+    xcenter 180
+    ycenter 370
+    zoom 0.60
+    menu_art_move(0.25, 180, 0.60)
 image menu_art_m_ghost:
     subpixel True
     "gui/menu_art_m_ghost.png"
-    xcenter 1000
-    ycenter 640
-    zoom 1.00
-    menu_art_move(1.00, 1000, 1.00)
+    xcenter 1100
+    ycenter 370
+    zoom 0.60
+    menu_art_move(0.25, 1100, 0.60)
 
 # This image sprite shows a glitched Sayori menu sprite after Act 1 finishes.
 image menu_art_s_glitch:
     subpixel True
     "gui/menu_art_s_break.png"
-    xcenter 470
-    ycenter 600
-    zoom 0.68
-    menu_art_move(.8, 470, .8)
+    xcenter 180
+    ycenter 370
+    zoom 0.60
+    menu_art_move(0.25, 180, 0.60)
 
 # This image shows the main menu screen in the main/pause menu.
-image menu_nav:
-    "mod_assets/gui/overlay/main_menu.png"
-    #recolorize("gui/overlay/main_menu.png", "#ffbde1")
-    menu_nav_move
+
+if not persistent.virus_mode:
+    image menu_nav:
+
+        "mod_assets/gui/overlay/main_menu.png"
+        #recolorize("gui/overlay/main_menu.png", "#ffbde1")
+        menu_nav_move
+else:
+    image menu_nav:
+            
+        "mod_assets/gui/overlay/menunav_virus/main_menu_virus_1.png"
+        0.05  # Tiempo en segundos que se mostrará este frame
+        "mod_assets/gui/overlay/menunav_virus/main_menu_virus_2.png"
+        0.05
+        "mod_assets/gui/overlay/menunav_virus/main_menu_virus_3.png"
+        0.15
+        "mod_assets/gui/overlay/menunav_virus/main_menu_virus_4.png"
+        0.15
+        "mod_assets/gui/overlay/menunav_virus/main_menu_virus_2.png"
+        0.15
+        "mod_assets/gui/overlay/menunav_virus/main_menu_virus_3.png"
+        0.05
+        repeat
 
 ## Main Menu Effects
 # These transforms and image transform store the effects that appear in the
@@ -278,6 +311,9 @@ init python:
 image tos = "bg/warning.png"
 image tos2 = "bg/warning2.png"
 
+
+default persistent.virus_mode = False
+
 ## This sets the persistent to false in order to choose a language.
 default persistent.has_chosen_language = False
 
@@ -371,6 +407,8 @@ label splashscreen:
                 pass
 
         $ persistent.first_run = True
+        
+    
         scene tos2
         with Dissolve(1.5)
         pause 1.0
@@ -444,7 +482,12 @@ label splashscreen:
         $ config.main_menu_music = audio.ghostmenu
         $ persistent.seen_ghost_menu = True
         $ persistent.ghost_menu = True
-        $ renpy.music.play(config.main_menu_music)
+        
+        if not persistent.virus_mode:
+            $ renpy.music.play("tmenu")
+        else:
+            $ renpy.music.play("tunem")
+
         $ pause(1.0)
         show end with dissolve_cg
         $ pause(3.0)
@@ -509,7 +552,14 @@ label splashscreen:
     show white
     $ persistent.ghost_menu = False
     $ splash_message = splash_message_default
-    $ config.main_menu_music = audio.t1
+
+    $ persistent.virus_mode = False
+
+    if not persistent.virus_mode:
+        $ config.main_menu_music = audio.tmenu
+    else:    
+        $ config.main_menu_music = audio.tunem
+        
     $ renpy.music.play(config.main_menu_music)
     show intro with Dissolve(0.5, alpha=True)
     $ pause(2.5)
@@ -521,6 +571,7 @@ label splashscreen:
     hide splash_warning with Dissolve(0.5, alpha=True)
     $ pause(0.5)
     $ config.allow_skipping = True
+    
     return
 
 ## This label is a left-over from DDLC's development that hides the Team Salvato
