@@ -556,4 +556,16 @@ transform malpha(a=1.00):
     alpha a
 
 transform night:
-    matrixcolor TintMatrix("#455573") # Aplica un tono azul/morado oscuro
+    matrixcolor TintMatrix("#334866") * BrightnessMatrix(-0.35) * ContrastMatrix(1.15)
+
+transform night_ambient_flicker:
+    subpixel True
+    # Estado base de noche
+    matrixcolor TintMatrix("#334866") * BrightnessMatrix(-0.35) * ContrastMatrix(1.15)
+    
+    # Bucle infinito de variaciones sutiles de luz
+    block:
+        ease 3.0 matrixcolor TintMatrix("#334866") * BrightnessMatrix(-0.38) * ContrastMatrix(1.15)
+        ease 2.5 matrixcolor TintMatrix("#2d4261") * BrightnessMatrix(-0.32) * ContrastMatrix(1.12)
+        ease 4.0 matrixcolor TintMatrix("#334866") * BrightnessMatrix(-0.35) * ContrastMatrix(1.15)
+        repeat

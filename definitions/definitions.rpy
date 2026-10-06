@@ -146,8 +146,14 @@ init python:
 # Example: 
 #   define audio.t2 = "bgm/2.ogg"
 
+define audio.sayori_lought_alone = "mod_assets/sfx/Sayori_laugh_alone.ogg"
+
+
+
 define audio.tmenu = "mod_assets/bgm/mainmenu.ogg"
 define audio.tunem = "mod_assets/bgm/enumniam.ogg"
+define audio.tsad = "mod_assets/bgm/sad_theme.mp3"
+
 
 
 define audio.t1 = "<loop 22.073>bgm/1.ogg" # Doki Doki Literature Club! - Main Theme
@@ -247,6 +253,19 @@ image bg club_day2: # Glitched Club BG
     choice:
         "bg/club-skill.png"
 
+image night_mote = Transform(Solid("#b2fffba1"), size=(2, 2), alpha=0.5)
+
+image night_particles = SnowBlossom(
+    "night_mote",
+    count=40,            # Cantidad de partículas en pantalla
+    border=50,           # Margen fuera de pantalla
+    xspeed=(-12, 12),    # Movimiento horizontal suave (izquierda/derecha)
+    yspeed=(-15, 8),     # Movimiento vertical suave (flotando hacia arriba/abajo)
+    start=15,            # Aparecen distribuidas desde el inicio
+    fast=True
+)
+
+
 image bg closet = "bg/closet.png" # The closet BG
 image bg bedroom = "bg/bedroom.png" # MC's Room BG
 image bg sayori_bedroom = "bg/sayori_bedroom.png" # Sayori's Room BG
@@ -256,6 +275,7 @@ image bg kitchen = "bg/kitchen.png" # MC's Kitchen BG
 #### BG MOD ####
 
 image bg park = "mod_assets/images/park.jpg"
+image bg sayori_bedroom_window = "mod_assets/images/sayori_bedroom_window.png"
 image bg corridor_nightmare = "mod_assets/images/corridor_nightmare.png"
 image bg club_nightmare = "mod_assets/images/club_nightmare.png"
 
