@@ -180,29 +180,32 @@ image menu_art_s_glitch:
     menu_art_move(0.25, 180, 0.60)
 
 # This image shows the main menu screen in the main/pause menu.
+# Primero defines la versión normal
+image menu_nav_normal:
+    "mod_assets/gui/overlay/main_menu.png"
+    menu_nav_move
 
-if not persistent.virus_mode:
-    image menu_nav:
 
-        "mod_assets/gui/overlay/main_menu.png"
-        #recolorize("gui/overlay/main_menu.png", "#ffbde1")
-        menu_nav_move
-else:
-    image menu_nav:
-            
-        "mod_assets/gui/overlay/menunav_virus/main_menu_virus_1.png"
-        0.05  # Tiempo en segundos que se mostrará este frame
-        "mod_assets/gui/overlay/menunav_virus/main_menu_virus_2.png"
-        0.05
-        "mod_assets/gui/overlay/menunav_virus/main_menu_virus_3.png"
-        0.15
-        "mod_assets/gui/overlay/menunav_virus/main_menu_virus_4.png"
-        0.15
-        "mod_assets/gui/overlay/menunav_virus/main_menu_virus_2.png"
-        0.15
-        "mod_assets/gui/overlay/menunav_virus/main_menu_virus_3.png"
-        0.05
-        repeat
+image menu_nav_virus:
+    "mod_assets/gui/overlay/menunav_virus/main_menu_virus_1.png"
+    0.05  
+    "mod_assets/gui/overlay/menunav_virus/main_menu_virus_2.png"
+    0.05
+    "mod_assets/gui/overlay/menunav_virus/main_menu_virus_3.png"
+    0.15
+    "mod_assets/gui/overlay/menunav_virus/main_menu_virus_4.png"
+    0.15
+    "mod_assets/gui/overlay/menunav_virus/main_menu_virus_2.png"
+    0.15
+    "mod_assets/gui/overlay/menunav_virus/main_menu_virus_3.png"
+    0.05
+    repeat
+
+
+image menu_nav = ConditionSwitch(
+    "persistent.virus_mode", "menu_nav_virus",
+    "True", "menu_nav_normal"
+)
 
 ## Main Menu Effects
 # These transforms and image transform store the effects that appear in the
