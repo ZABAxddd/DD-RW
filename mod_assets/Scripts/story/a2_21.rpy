@@ -396,62 +396,97 @@ label a2_21:
     show natsuki zorder 4 at f43
     n "Espera, ¿de verdad Sayori tiene Reddit?"
     show natsuki zorder 3 at t43
-    show yuri zoder 4 at f42
+    show yuri zorder 4 at f42
     y "¿Reddit?"
     show monika 2b zorder 4 at f41
-    show yuri at zorder 3 t42
+    show yuri zorder 3 at t42
     m "Vaya, eso sí que no me lo esperaba."
     show monika zorder 3 at t41
     show sayori zorder 4 at hf44
     s "¡Déjenlo ya! ¡No es para tanto!"
     show sayori at t44
     mc "Dice que no la dejemos."
-
-    s 5c "¡No! ¡Tenemos que preparar el festival!"
+    show sayori 3j at h44
+    "¡No! ¡Tenemos que preparar el festival!"
+    
+    show sayori 1a
+    show monika 2a
+    show natsuki 5a
+    show yuri 1a
 
     "Después de eso, se forma un pequeño silencio."
 
     "Pero no dura demasiado, ya que Natsuki suelta un pequeño sonido de protesta."
+    
+    show natsuki 4b zorder 5 at f43
 
     n "Creo que tiene razón."
 
     "Yuri sonríe tímidamente, está vez concediéndole la razón a Natsuki."
+    
+    show natsuki 4b zorder 5 at t43
+    show yuri 1b zorder 6 at f42
 
     y "No podemos quedarnos aquí hablando todo el día."
-
+    
+    show monika 5a zorder 7 at hf41
+    show yuri at t42
     m "Exactamente."
-
+    show monika at t41
     mc "Sip, pero probablemente diría que Sayori nos ha salvado de perder toda la mañana."
+    show sayori 1q zorder 8 at hf44 
 
     s "Ese es mi mayor talento, por fin lo reconoces."
-
+    show sayori at t44
     "Acto seguido, Sayori me da un suave codazo juguetón."
 
     "Monika se pone delante de todos, mientras miraba al resto del grupo."
-
+    show monika 5a zorder 9 at f41
+    show sayori 1a
+    show natsuki 5g
+    show yuri 
     m "Okay, todo el mundo."
 
-    m "Ya hemos descansado suficiente."
+    m 1a "Ya hemos descansado suficiente."
 
     "Los ojos de Monika brillan con profunda determinación mientras nos mira a todos."
 
-    m "Hoy tenemos una misión."
+    m 2e "Hoy tenemos una misión."
 
     m "Debemos montar nuestro puesto antes de que empiece el festival."
 
     "Entonces, Sayori levantó el puño."
 
+    show sayori 2r at hf44
     s "¡Entonces vamos a hacerlo!"
 
+    show yuri zorder 10 at f42
+    
     y "¡S-sí!"
-
+    show natsuki 5j zorder 11 at f43
     n "¡Venga!"
-
+    show monika at t41
+    show sayori at t44
+    show natsuki at t43
+    show yuri at t42
     mc "De acuerdo."
 
     "Monika parecía bastante satisfecha ante todas estas respuestas, manteniendo su actitud de lideresa."
-
+    
+    show monika 5a zorder 10 at h41
     m "Perfecto, ¡pues empezemos!"
+    
+    show monika at thide
+    show sayori at thide
+    show natsuki at thide
+    show yuri at thide
+    
+    hide yuri
+    hide monika
+    hide sayori
+    hide natsuki
+    
+    scene bg club_day with wipeleft_scene
 
     "Y sin más preámbulos, todos nos pusimos manos a la obra."
 
