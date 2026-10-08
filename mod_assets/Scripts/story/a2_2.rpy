@@ -4,7 +4,7 @@ label a2_2:
     $ player = user 
 
     scene black
-    show text "{size=60}El día del festival{/size}"
+    show text "{size=55}La noche antes del festival{/size}"
     with dissolve_scene_full
     
     pause 3.0
@@ -98,8 +98,7 @@ label a2_2:
     "Y después, empiezo a actuar como si nada hubiera pasado."
     stop music fadeout 1.0
     scene black with dissolve_scene_full
-    pause 3.0
-
-
+    jump a2_21
+return
     # Se corta la escena
 

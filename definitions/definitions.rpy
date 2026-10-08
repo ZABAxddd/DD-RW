@@ -274,6 +274,7 @@ image bg kitchen = "bg/kitchen.png" # MC's Kitchen BG
 
 #### BG MOD ####
 
+image bg living = "mod_assets/images/living.png"
 image bg park = "mod_assets/images/park.jpg"
 image bg sayori_bedroom_window = "mod_assets/images/sayori_bedroom_window.png"
 image bg corridor_nightmare = "mod_assets/images/corridor_nightmare.png"

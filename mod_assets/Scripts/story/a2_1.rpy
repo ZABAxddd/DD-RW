@@ -1,7 +1,7 @@
 label a2_1:
     stop music
     scene black
-
+    
     # """
     # Mostrar cinemática 
     # Donde la Doplenganger amordaza cada Doki
