@@ -569,3 +569,5 @@ transform night_ambient_flicker:
         ease 2.5 matrixcolor TintMatrix("#2d4261") * BrightnessMatrix(-0.32) * ContrastMatrix(1.12)
         ease 4.0 matrixcolor TintMatrix("#334866") * BrightnessMatrix(-0.35) * ContrastMatrix(1.15)
         repeat
+
+define giro3d = Swing(1.2, background="#000")

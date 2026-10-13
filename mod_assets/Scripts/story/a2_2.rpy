@@ -13,9 +13,9 @@ label a2_2:
     
     pause 3.5
     
-    scene bg sayori_bedroom at night_ambient_flicker 
+    scene bg sayori_bedroom at night_ambient_flicker  
     
-    with dissolve_scene_full
+    with open_eyes
 
 
     # Perspectiva de Sayori

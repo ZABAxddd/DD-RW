@@ -212,6 +212,8 @@ define audio.sayori_cry_ambient = "mod_assets/sfx/sayori_cry_1.ogg"
 define audio.sayori_laugh_ambient = "mod_assets/sfx/sayori_laugh_1.ogg"
 define audio.sanity_loop2 = "mod_assets/sfx/sanity_loop2.ogg"
 define audio.splat = "mod_assets/sfx/splat.ogg"
+define audio.walk = "mod_assets/sfx/walk.mp3"
+define audio.multitud = "mod_assets/sfx/multitud.mp3"
 
 
 
@@ -278,6 +280,8 @@ image bg living = "mod_assets/images/living.png"
 image bg park = "mod_assets/images/park.jpg"
 image bg sayori_bedroom_window = "mod_assets/images/sayori_bedroom_window.png"
 image bg corridor_nightmare = "mod_assets/images/corridor_nightmare.png"
+image bg corridor_festival = Transform("mod_assets/images/corridor_festival.png", size=(1280, 720))
+image bg club_festival = Transform("mod_assets/images/club_festival.png", size=(1280, 720))
 image bg club_nightmare = "mod_assets/images/club_nightmare.png"
 
 

@@ -500,97 +500,164 @@ label a2_21:
 
     "Y yo... Bueno, ayudo donde hace falta."
 
+    scene bg corridor_festival with wipeleft_scene
+    play music t6 fadein 0.5 loop
+    play sound walk fadein 0.5 noloop
+    play sound multitud fadein 1.5 loop
+    
     "De todos modos…"
 
     "Poco a poco el ruido de los pasillos fue aumentando progresivamente."
 
     "Voces, canciones y pasos se mezclaban con el movimiento constante de estudiantes que iban de un lado al otro."
 
-    "Había salido del aula para escaquearme de ayudar, y al mismo tiempo ir a mear…"
+    "Había salido del aula para escaparme de ayudar, y al mismo tiempo ir al baño…"
 
     "Pero cuando salí del club, apenas pude reconocer algunos de los pasillos que había recorrido cientas de veces."
 
-    "Había carteles en todos lados, las puertas de las aulas estaban abiertas y se podían ver las diversas actividades que se realizaban, gente estaba moviendo mesas y sillas por los pasillos, estudiantes moviéndose de un lado al otro."
+    "Había carteles en todos lados, las puertas de las aulas estaban abiertas y se podían ver las diversas actividades que se realizaban"
+    
+    "Hay gente que estaba moviendo mesas y sillas por los pasillos y hay estudiantes moviéndose de un lado al otro."
 
     "Okey, creo que el festival definitivamente va a comenzar dentro de nada."
-
-    "Después de hacer lo necesario, vuelvo al aula."
+    stop sound fadeout 2.0
+    scene black with wipeleft_scene
+    pause 2.0
+    scene bg club_festival with wipeleft_scene
 
     "Parece que todo está casi listo."
+    
+    "El aula quedo precioso en mi opinion, con los carteles que hize junto a Yuri"
+
+    "Tambien veo que Yuri coloco las velas aromaticas los cuales me hacen sentir ligero"
+
+    "Tambien veo que en cada puesto hay un pastelillo"
+
+    "Me sorprende que Natsuki haya podido hacer esto sola."
 
     mc "Oh, ¿Acaso ya han terminado?"
 
-    m "Casi, sigo comprobando que no nos falte nada."
+    show monika 2k zorder 2 at t11
 
+    m "Casi, sigo comprobando que no nos falte nada."
+    show monika 2l zorder 2 at t21
+    show natsuki 5k zorder 3 at t22
     n "¿No lo has comprobado demasiadas veces ya?"
 
     m "Je, bueno, solo quiero que todo salga bien."
-
+    show yuri 4a zorder 3 at t31
+    show monika zorder 2 at t32
+    show natsuki zorder 2 at t33
     y "Pero creo que todo está preparado ya, Monika…"
 
     "Monika se estira, reflexionando."
 
-    m "Hmmm, supongo que tienes razón."
+    m 2a "Hmmm, supongo que tienes razón."
 
     "Ella mira la hora."
-
+    show monika 5a at h32
     m "Está bien, tenemos una hora antes del festival."
-
+    m "Voy a tomar el tiempo para organizar todo para cuando comienze nuestro acto"
+    show sayori 1a zorder 4 at t44
+    show natsuki zorder 3 at t43
+    show monika zorder 2 at t42
+    show yuri zorder 3 at t41
+    s 1a "Esta bien Monika"
+    show sayori 3a zorder 4 at t33
+    show natsuki zorder 3 at t32
+    show yuri zorder 3 at t31
+    show monika at thide
+    hide monika
+    
     s "Entonces, ¿Qué hacemos ahora?"
 
-    n "Nada. Supongo, ya hemos terminado."
-
+    show natsuki at f32 
+    n 2j "Nada. Supongo, ya hemos terminado."
+    show natsuki at t32 
     mc "Podríamos salir un rato."
-
-    s "¿A ver el festival?"
-
+    show sayori at f33 
+    s 1x "¿A ver el festival?"
+    show sayori at t33 
     mc "Exactamente."
-
-    n "Bueno, yo tampoco tengo nada mejor que hacer..."
+    show natsuki at f32 
+    n 3z "Bueno, yo tampoco tengo nada mejor que hacer..."
 
     mc "Oh, ya veo."
 
     mc "¿Eso significa que vienes?"
 
-    n "Ni te emociones, solo me apetece dar una vuelta."
-
+    show natsuki at f32 
+    n 42c "Ni te emociones, solo me apetece dar una vuelta."
+    show natsuki at t32 
+    show sayori 4s at hf33 
     s "¡Entonces seremos 3!"
 
-    "Yuri está sentada cerca de nosotros, tratando de concentrarse en su folleto."
-
+    # "Yuri está sentada cerca de nosotros, tratando de concentrarse en su folleto."
+    show yuri zorder 4 at f31
+    show sayori at t33
     y "Y-yo... creo que me quedaré aquí."
-
-    s "¿Seguro?"
+    show yuri 4a zorder 4 at t31
+    show sayori 2c at f33
+    
+    s "¿Segura?"
+    show yuri 4b zorder 4 at f31
+    show sayori at t33
 
     y "Sí... solo quiero repasar un poco antes del recital."
+    show yuri 4b zorder 4 at t31
+    show natsuki 2d zorder 5 at f32
 
     n "Oh, vamos, pasear no es un crimen, puedes venir."
+    show yuri 1u zorder 4 at f31
+    show natsuki zorder 5 at t32
 
     y "No, en serio está bien..."
+    show yuri zorder 4 at t31
 
     mc "Bueno, supongo que como quieras..."
+    show natsuki at thide
+    show sayori at thide
+    show yuri at thide
+    
+
+    hide natsuki
+    hide sayori 
+    hide yuri
 
     "Sin esperar más, los tres salimos del aula, no sin antes despedirnos de Monika y Yuri."
-
+    stop music fadeout 1.0
+    scene black with dissolve_scene_full
     # Mientras tanto, Monika y Yuri:
-
+    
     m "¿No ibas a quedarte?"
+    show bg club_festival 
+    show monika 5a zorder 2 at i11
+    with open_eyes(2.0)
+    $ renpy.notify("Perspectiva de Yuri")
 
-    "Yuri queda totalmente paralizada."
 
     y "Y-yo…"
 
-    "Yuri mira hacia la puerta."
+    camera:
+        subpixel True
+        transform_anchor True
+        anchor (0.5, 0.5)
+        pos (0.5, 0.5)
+        ease_cubic 1.3 anchor (0.35, 0.43) zoom 1.5 # la puerta pasa al centro
+                            # deriva suave al terminar
 
     y "Pensándolo mejor, tomar un poco de aire nunca viene mal."
 
+    camera:
+        ease_cubic 1.0 anchor (0.5, 0.5) zoom 1.0
+    show monika at h11
+    
     m "Claro."
 
-    "Yuri trata de aparentar la mayor normalidad posible mientras se retira del aula también."
-
     m "..."
+    "Yuri se retira del aula"
 
-    m "Que discretos..."
+    m "Que discretos son las chicas..."
 
     "Monika se ríe suavemente."
 
