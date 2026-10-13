@@ -648,10 +648,11 @@ label a2_21:
 
     y "Pensándolo mejor, tomar un poco de aire nunca viene mal."
 
-    camera:
+    camera: 
         ease_cubic 1.0 anchor (0.5, 0.5) zoom 1.0
+        default
     show monika at h11
-    
+
     m "Claro."
 
     m "..."
@@ -659,23 +660,40 @@ label a2_21:
 
     m "Que discretos son las chicas..."
 
-    "Monika se ríe suavemente."
-
+    play sound "sfx/giggle.ogg"
+    scene black with Dissolve(2.0)
+    pause 3.0
+    play music t6 fadein 1.5
+    play sound multitud fadein 1.0 loop
+    
+    scene bg cancha_festival with dissolve_scene_full
     # Volvemos con MC:
 
     "Ya fuera del aula, empezamos a caminar los 3 juntos."
 
-    "Podemos notar como la escuela se ha transformado totalmente."
+    "Podemos notar como la escuela se ha transformado totalmente." 
+    
+    show bg cancha_festival at pan_derecha
+    "La cancha está llena de olores a yakisoba y tokoyaki." with dissolve_cg
+    
 
-    "La cancha está llena de olores a yakisoba y tokoyaki."
+    show bg corridor_festival at pan_izquierda 
+    "Las aulas están llenas de cafés y casas embrujadas." with dissolve_cg
 
-    "Las aulas están convertidas en cafés o en casas embrujadas."
 
-    "También hay actuaciones organizadas por gente de todos los años."
+    scene bg escenario_festival:
+        subpixel True
+        xcenter 0.5
+        ycenter 0.5
+        zoom 1.3
 
-    "Y al igual que nosotros, también hay clubes organizando actividades para reclutar nuevos miembros."
-
-    "Creo que hay demasiado que ver por hoy..."
+        linear 12.0 zoom 1.0
+    
+    "También hay actuaciones organizadas por gente de todos los años." with dissolve_cg
+    show bg corridor2_festival at pan_izquierda
+    "Y al igual que nosotros, también hay clubes organizando actividades para reclutar nuevos miembros." with dissolve_cg
+    scene bg corridor_festival 
+    "Creo que hay demasiado que ver por hoy..." with dissolve_cg
 
     # Se corta la escena, para representar que ha pasado un buen rato.
 

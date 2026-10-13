@@ -281,7 +281,13 @@ image bg park = "mod_assets/images/park.jpg"
 image bg sayori_bedroom_window = "mod_assets/images/sayori_bedroom_window.png"
 image bg corridor_nightmare = "mod_assets/images/corridor_nightmare.png"
 image bg corridor_festival = Transform("mod_assets/images/corridor_festival.png", size=(1280, 720))
+image bg corridor2_festival = Transform("mod_assets/images/corridor2_festival.png", size=(1280, 720))
+image bg corridor2 = Transform("mod_assets/images/corridor2.jpg", size=(1280, 720))
 image bg club_festival = Transform("mod_assets/images/club_festival.png", size=(1280, 720))
+image bg cancha_festival = Transform("mod_assets/images/cancha_festival.png", size=(1280, 720))
+image bg escenario_festival = Transform("mod_assets/images/escenario_festival.png", size=(1280, 720))
+image bg escenario_festival_vasio = Transform("mod_assets/images/escenario_festival_vasio.png", size=(1280, 720))
+image bg cancha = Transform("mod_assets/images/cancha.jpg", size=(1280, 720))
 image bg club_nightmare = "mod_assets/images/club_nightmare.png"
 
 

@@ -571,3 +571,24 @@ transform night_ambient_flicker:
         repeat
 
 define giro3d = Swing(1.2, background="#000")
+
+# Paneo de izquierda a derecha
+transform pan_derecha(t=10.0):
+    zoom 1.1
+    xalign 0.0 yalign 0.5
+    linear t xalign 1.0
+
+# Paneo de derecha a izquierda
+transform pan_izquierda(t=10.0):
+    zoom 1.1
+    xalign 1.0 yalign 0.5
+    linear t xalign 0.0
+
+# Paneo de ida y vuelta
+transform pan_vaiven(t=12.0):
+    zoom 1.1
+    xalign 0.0 yalign 0.5
+    block:
+        linear t xalign 1.0
+        linear t xalign 0.0
+        repeat
