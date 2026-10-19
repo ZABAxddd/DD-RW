@@ -800,10 +800,11 @@ label a2_21:
     y 2c "Lo intentaré…"
 
     "Antes de decir algo más, escuchamos unos pasos acercándose por el pasillo."
-    show sayori at thide
+    show sayori zorder 3 at thide
     hide sayori
+    
     show yuri 3a at t21
-    show natsuki 4e at t22
+    show natsuki 4e zorder 2 at t22
     n "¡Ah!, ¿Ya están aquí?"
 
     "Natsuki apareció doblando la esquina y se detuvo al ver a Yuri."
