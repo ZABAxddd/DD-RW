@@ -660,14 +660,16 @@ label a2_21:
 
     m "Que discretos son las chicas..."
 
-    play sound "sfx/giggle.ogg"
     scene black with Dissolve(2.0)
-    pause 3.0
+    pause 1.0
+    play sound "sfx/giggle.ogg"
+    pause 2.0
     play music t6 fadein 1.5
     play sound multitud fadein 1.0 loop
     
     scene bg cancha_festival with dissolve_scene_full
     # Volvemos con MC:
+    $ renpy.notify("Perspectiva de [player]")
 
     "Ya fuera del aula, empezamos a caminar los 3 juntos."
 
@@ -725,126 +727,143 @@ label a2_21:
 
     mc "¿Vamos de una vez?"
 
-    "Sayori asiente afirmativamente."
+    # "Sayori asiente afirmativamente."
 
-    "Con una pequeña sonrisa que demuestra que lo ha pasado bien pero que sabe que es hora de irse."
-
+    # "Con una pequeña sonrisa que demuestra que lo ha pasado bien pero que sabe que es hora de irse."
+    show sayori 1a zorder 2 at t11
     s "¡Vamos!"
 
-    s "¿Pero sabes donde está Natsuki?"
+    s 3b "¿Pero sabes donde está Natsuki?"
 
     mc "Es cierto, ¿Dónde estará?"
+
+    show sayori at thide
+    hide sayori
 
     "Por un momento sentí a alguien detrás de mí."
 
     "Pensé que podría ser Natsuki, así que me volteo lentamente."
-
-    mc "Oh, ahí estás, Nats-"
-
+    show yuri 4b at t11
+    mc "Oh, ahí estás, Nats--{nw}"
+    show yuri 3p at h11 
     y "Ah, [player]..."
 
     "¿Qué?"
 
     mc "¿Yuri?"
-
+    show sayori 4b at t22
+    show yuri at t21
     s "Sí~ ¡Yuri!"
 
-    y "Sí... soy yo..."
+    y 4c "Sí... soy yo..."
 
     "Yuri parece algo avergonzada."
 
-    y "Pensé que quizás la estarían regresando."
+    # y 3o "Pensé que quizás la estarían regresando."
 
     mc "¿Qué estás haciendo aquí?"
 
-    s "¡Pensábamos que te habías quedado en el aula!"
-
+    s 2b "¡Pensábamos que te habías quedado en el aula!"
+    show yuri 4b at t21
     "Yuri aparta la mirada hacia un lado, se ve tímida como siempre."
 
     y "Bueno... sí, supongo que eso era lo que había dicho."
 
     mc "Entonces... ¿Te apetece contarnos por qué saliste?"
 
-    y "Quise ver una exposición de libros de segunda mano que estaba en uno de los pasillos."
+    y 3u "Quise ver una exposición de libros que estaba en uno de los pasillos."
 
     s "¿Libros?"
 
     "Yuri sonríe muy levemente."
 
-    y "Sí... Había algunos bastante interesantes."
+    y 1a "Sí... Había algunos bastante interesantes."
 
     mc "¿Fuiste tú sola?"
 
     "Yuri asiente afirmativamente."
 
-    y "Yo... no quería molestarlos con mi presencia, además de que pensé que era una buena oportunidad para hechar un vistazo."
+    y 4a "Yo... no quería molestarlos con mi presencia, además de que pensé que era una buena oportunidad para hechar un vistazo."
 
-    s "¿Qué? ¡Jamás serías una molestia, Yuri!"
+    s 4x "¿Qué? ¡Jamás serías una molestia, Yuri!"
 
-    s "¡Podrías habernos avisado!"
+    s 3l "¡Podrías habernos avisado!"
 
-    y "Yo... lo sé, pero vi que ustedes la estaban pasando muy bien."
+    y 4a "Yo... lo sé, pero vi que ustedes la estaban pasando muy bien."
 
     "Sayori sonríe."
 
-    s "Bueno, ¡La programa no! ven con nosotros!"
+    s 1r "Bueno, ya que estamos, ¡ven con nosotros!"
 
     "Yuri parece estar un poco más animada."
 
-    y "Lo intentaré…"
+    y 2c "Lo intentaré…"
 
     "Antes de decir algo más, escuchamos unos pasos acercándose por el pasillo."
-
+    show sayori at thide
+    hide sayori
+    show yuri 3a at t21
+    show natsuki 4e at t22
     n "¡Ah!, ¿Ya están aquí?"
 
     "Natsuki apareció doblando la esquina y se detuvo al ver a Yuri."
 
-    n "¿Yuri?"
+    n 3k "¿Yuri?"
 
-    y "Natsuki."
+    y 4a "Natsuki."
 
-    n "Pensaba que te habías quedado con Monika."
+    n 5b "Pensaba que te habías quedado con Monika."
 
-    y "Y yo pensaba que tú estabas con ellos."
+    y 2g "Y yo pensaba que tú estabas con ellos."
 
     "Menciona Yuri, refiriéndose a mí y a Sayori."
 
-    n "Estuve un rato, pero luego fui a ver la exposición del club de manga…"
+    n 5c "Estuve un rato, pero luego fui a ver la exposición del club de manga…"
 
+    show natsuki at t32
+    show yuri at t31
+    show sayori 4n at r33
     s "Oh, ¿Había cosas buenas?"
 
-    n "Podría decirse que sí, habían algunas ilustraciones que estaban bastante bien."
+    n 4l "Podría decirse que sí, habían algunas ilustraciones que estaban bastante bien."
 
     "Natsuki parece darse cuenta de algo."
 
-    n "Espera, ¿ustedes dos han estado juntos todo este tiempo?"
+    n 5k "Espera, ¿ustedes dos han estado juntos todo este tiempo?"
 
-    s "¡Sí!"
+    s 1y "¡Sí!"
 
     "Natsuki sonríe naturalmente, su expresión confiada dice algo que no me gusta…"
 
-    n "Ja, que conveniente."
+    n 4y "Ja, que conveniente."
 
     mc "¿A qué se supone que quieres llegar?"
 
     mc "¿Qué significa eso?"
 
-    n "No es nada, solo calate."
+    n 5t "No es nada, solo callate."
 
-    y "..."
+    y 3g "..."
 
-    y "Deberíamos volver, recuerden que el recital empieza pronto."
+    y 3q "Deberíamos volver, recuerden que el recital empieza pronto."
 
     mc "Muy cierto…"
-
+    show yuri at thide
+    show natsuki at thide
+    show sayori at thide
+    hide sayori
+    hide natsuki
+    hide yuri
     "Y así, finalmente, los cuatro emprendimos el camino de vuelta al aula."
 
     "Después de recorrer el festival por separado, finalmente estábamos todos juntos otra vez."
 
     "Claro, sin contar a Monika, la cual probablemente siga en el club de literatura."
-
+    stop music fadeout 1.0
+    scene black with dissolve_scene_full
     # Se corta la escena, indicando que ha ocurrido algo de tiempo.
-
+    pause 3.0
+    scene bg club_festival with dissolve_scene_full
     "Cuando regresamos al aula, Monika ya estaba esperándonos."
 
     "Se alegró al vernos aparecer juntos, y en seguida quiso saber que hemos estado haciendo."
